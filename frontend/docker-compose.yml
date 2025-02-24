@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build:
+      context: ./  # Context pointing to the frontend directory
+      dockerfile: Dockerfile  # Using the Dockerfile from the frontend
+    ports:
+      - "8080:80"  # Exposing Nginx's port 80 to local port 8080

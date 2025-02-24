@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: ./  # Contexto apontando para o diretório do backend
+      dockerfile: Dockerfile  # Usando o Dockerfile do backend
+    ports:
+      - "5000:5000"  # Expondo a porta 5000 do backend
+    
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ${STRING_CONECTION}
+    env_file:
+      - .env

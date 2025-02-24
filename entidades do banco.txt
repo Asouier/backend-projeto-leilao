@@ -1,0 +1,229 @@
+cadastro, consulta, atualização e remoção dos ENDERECO
+
+ENDERECO -
+	ID,
+	CEP,
+	Descrição,
+	Cidade,
+	Estado,
+	Pais,
+    numero,
+    complemento,
+
+cadastro, consulta, atualização e remoção dos STATUS_PROPRIEDADES
+
+STATUS_PROPRIEDADE -
+	ID,
+	Descrição(Disponível, Arrematado, Retirado, Cancelado)
+
+cadastro, consulta, atualização e remoção de IMOVEL
+
+IMOVEL - 
+	ID
+•	TIPO_IMOVEL.ID, 
+•	LEILAO.ID, 
+•	ENDERECO.ID,
+	Área total,
+	Quantidade do cômodos,
+	Valor mínimo,
+•	STATUS_PROPRIEDADES.ID,
+	Data e hora do cadastro, 
+•	USUARIO.ID que fez o cadastro,
+	Data de recolhimento do Imóvel,
+	Motivo do recolhimento do Imóvel
+•    CLIENTE.ID que arrematou o imovel
+
+TIPO_IMOVEL -
+	ID,
+	Descrição(Residencial, Comercial, Rural, Industrial)
+
+
+cadastro, consulta, atualização e remoção de VEICULO
+
+VEICULO - 
+	ID
+•	LEILAO.ID, 
+•	TIPO_VEICULO.ID, 
+	Placa,
+	Chassi,
+	Marca,
+	Modelo,
+	Ano de fabricação,
+	Cor,
+	Valor mínimo,
+•	STATUS_PROPRIEDADE.ID,
+	Data e hora do cadastro, 
+•	USUARIO.ID que fez o cadastro,
+	Data de recolhimento do veículo,
+	Motivo do recolhimento do veículo
+•   CLIENTE.ID que arrematou o veículo
+
+TIPO_VEICULO -
+	ID,
+	Descrição(Motocicleta, Veículo de Passeio, Caminhão, Ônibus, Van)
+
+
+cadastro, consulta, atualização e remoção de LEILÕES
+
+LEILAO - 
+	ID,
+	TIPO_LEILAO.ID,
+	STATUS.ID,
+•	ENDERECO.ID,
+	Data e hora da Inicio, 
+	Data e hora do fim,
+	Url do leilão,
+•	USUARIO.ID que cadastrou,
+•	USUARIO.ID que aprovou,
+	Taxa administrativa,
+	Valor arrecadado,
+	Data e hora do cadastro, 
+	Data e hora da atualização,
+
+TIPO_LEILAO -
+	ID
+	Descrição(Remoto, Presencial, Judicial, Extrajudicial, Patrimônio Público)
+
+STATUS_LEILAO -
+	ID
+	Descrição(Ativo, Finalizado, Cancelado, Suspenso)
+	
+
+cadastro, consulta, atualização e remoção de CLIENTES
+
+CLIENTE -
+	ID,
+•	CREDENCIAIS.ID,
+	Data e hora do cadastro,
+	RG,
+	Órgão emissor,
+	CPF,
+	CNPJ,
+	Nome Completo,
+	Nome fantasia,
+	Razão Social,
+•	REPRESENTANTE_LEGAL.ID,
+	Numero de telefone,
+	E-mail,	
+•	ENDERECO.ID,
+•	CONTATO.ID,
+	Certidão de nascimento ou casamento,
+	Complemento,
+	Comprovante de residência
+
+REPRESENTANTE_LEGAL -
+	ID,
+	Nome,
+	CPF,
+	Documento de identificação do representante,
+	CONTATO.ID,
+
+cadastro, consulta, atualização e remoção de USUARIOS
+
+USUARIO -
+	ID,
+•	CREDENCIAIS.ID,
+	Data e hora do cadastro,
+	Entidade responsável pelo funcionário,
+	Nome Completo,
+•	CONTATO.ID,
+	CPF,
+	RG,
+	Cargo/Função,
+	Matricula Funcional,
+•	PERMISSAO.ID,
+	Usuário que concedeu a permissão,
+	Região responsável,
+	Categoria responsável
+
+
+cadastro, consulta, atualização e remoção de PERMISSAO
+
+PERMISSAO -
+	ID
+	Descrição
+
+
+cadastro, consulta, atualização e remoção de CONTATO
+
+CONTATO -
+	ID
+	E-mail,	
+	Telefone,	
+	Numero da residência,
+	
+
+cadastro, consulta, atualização e remoção de USUARIO_CADASTRO
+
+CREDENCIAL -
+	ID,
+	nome de usuário,
+	senha,
+
+
+cadastro, consulta, atualização e remoção de LOG
+LOG
+	ID,
+•	USUARIO.ID,
+•	CLIENTE.ID,
+•	LEILAO.ID,
+	Entidade("Cliente", "Usuário", "Leilão", "Imóvel", "Veículo"),
+	Entidade Id da tabela correspondente,
+	Data e hora,
+	Ação tomada("Criação", "atualização", "Exclusão", "consulta"),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
