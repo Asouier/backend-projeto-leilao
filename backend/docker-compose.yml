@@ -3,11 +3,29 @@ services:
     build:
       context: ./  # Contexto apontando para o diretório do backend
       dockerfile: Dockerfile  # Usando o Dockerfile do backend
-    ports:
-      - "5000:5000"  # Expondo a porta 5000 do backend
-    
     environment:
-      - ASPNETCORE_URLS=http://+:5000
-      - ${STRING_CONECTION}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection}  # Referenciando a variável do .env
+    ports:
+      - "5000:80"
+    networks:
+      - backend_network
+    depends_on:
+      - db
     env_file:
       - .env
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=projeto-leilao2025
+    ports:
+      - "1433:1433"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
+

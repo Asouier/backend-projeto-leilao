@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dVqS+9vk9GI=",
+  "dgSpecHash": "8luCf11Psdg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Charles\\Documents\\Github\\projeto-leilao\\backend\\Backend.csproj",
+  "projectFilePath": "C:\\Users\\Charles\\Documents\\Github\\leilao\\backend-projeto-leilao\\backend\\Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Charles\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Charles\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

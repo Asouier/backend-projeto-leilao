@@ -1,0 +1,59 @@
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de configuração do VS e VS Code
+.vscode/
+.vs/
+.vs/Backend/
+.idea/
+
+# Ignorar diretórios de build e binários
+bin/
+obj/
+
+# Ignorar pastas de dependências do Docker
+docker-compose.override.yml
+docker-compose.override.yml.dist
+node_modules/
+
+# Ignorar arquivos temporários do ASP.NET
+# (Exclui arquivos temporários gerados pela compilação e binários)
+appsettings.Development.json
+appsettings.json
+appsettings.Production.json
+
+# Ignorar arquivos de compilação do .NET
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.dbmdl
+*.bak
+*.log
+
+# Ignorar arquivos de compilação do Entity Framework (Migrations e binários)
+Migrations/
+*/Migrations/
+
+# Ignorar arquivos de build do Docker
+Dockerfile
+.dockerignore
+*Dockerfile*
+docker-compose.yml
+
+# Ignorar arquivos temporários de teste (gerados no backend)
+TestResults/
+
+# Ignorar diretórios de configuração do EF e do banco de dados local
+App_Data/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar o diretório binário do frontend
+frontend/node_modules/
+frontend/dist/
+
+# Ignorar o arquivo de variáveis de ambiente
+.env
