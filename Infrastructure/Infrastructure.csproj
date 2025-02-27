@@ -6,7 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-<<<<<<< HEAD
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
@@ -27,10 +26,4 @@
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Data\Repository\" />
-	</ItemGroup>
-
-=======
->>>>>>> 95af4623e43e68da9e14ad9b9901eae11103469a
 </Project>

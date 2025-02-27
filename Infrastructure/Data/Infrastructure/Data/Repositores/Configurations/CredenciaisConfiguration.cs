@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
-using Backend.Domain.Entities;
-
-namespace Backend.ProjetoLeilao.Infrastructure.Data.Repositores.Configurations
+using Domain.Entities;
+    
+namespace Infrastructure.Data.Repositores.Configurations
 {
     public class CredencialConfiguration : IEntityTypeConfiguration<Credencial>
     {

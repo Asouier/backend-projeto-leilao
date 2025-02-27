@@ -1,7 +1,7 @@
-using Backend.Domain.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.ProjetoLeilao.Infrastructure.Data.Repositores
+namespace Infrastructure.Data.Repositores
 {
     public class AppDbContext : DbContext
     {

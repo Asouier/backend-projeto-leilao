@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Backend.Domain.Entities;
+using Domain.Entities;
 
-namespace Backend.ProjetoLeilao.Infrastructure.Data.Repositores.Configurations
+namespace Infrastructure.Data.Repositores.Configurations
 {
     public class RepresentanteLegalConfiguration : IEntityTypeConfiguration<RepresentanteLegal>
     {
