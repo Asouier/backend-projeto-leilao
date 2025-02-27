@@ -17,6 +17,11 @@ docker-compose.override.yml
 docker-compose.override.yml.dist
 node_modules/
 
+# Ignorar arquivos temporários do ASP.NET
+# (Exclui arquivos temporários gerados pela compilação e binários)
+appsettings.Development.json
+appsettings.json
+appsettings.Production.json
 
 # Ignorar arquivos de compilação do .NET
 *.user
