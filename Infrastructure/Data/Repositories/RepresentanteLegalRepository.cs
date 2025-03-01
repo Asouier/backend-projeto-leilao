@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var representanteLegal = await _context.RepresentantesLegais.FindAsync(id);
             if (representanteLegal != null)
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<RepresentanteLegal> GetById(string id)
+        public async Task<RepresentanteLegal> GetById(int id)
         {
             return await _context.RepresentantesLegais.FindAsync(id);
         }

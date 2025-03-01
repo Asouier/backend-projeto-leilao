@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(RepresentanteLegal representanteLegal);
         Task Update(RepresentanteLegal representanteLegal);
-        Task Remove(string id);
-        Task<RepresentanteLegal> GetById(string id);
+        Task Remove(int id);
+        Task<RepresentanteLegal> GetById(int id);
         Task<List<RepresentanteLegal>> GetAll();
         Task<RepresentanteLegal> GetByCpf(string cpf);
     }

@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var endereco = await _context.Enderecos.FindAsync(id);
             if (endereco != null)
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Endereco> GetById(string id)
+        public async Task<Endereco> GetById(int id)
         {
             return await _context.Enderecos.FindAsync(id);
         }

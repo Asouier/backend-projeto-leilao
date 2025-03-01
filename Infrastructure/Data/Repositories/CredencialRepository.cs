@@ -24,7 +24,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var credencial = await _context.Credenciais.FindAsync(id);
             if (credencial != null)
@@ -34,7 +34,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Credencial> GetById(string id)
+        public async Task<Credencial> GetById(int id)
         {
             return await _context.Credenciais.FindAsync(id);
         }

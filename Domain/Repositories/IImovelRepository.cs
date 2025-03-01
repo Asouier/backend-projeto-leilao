@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(Imovel imovel);
         Task Update(Imovel imovel);
-        Task Remove(string id);
-        Task<Imovel> GetById(string id);
+        Task Remove(int id);
+        Task<Imovel> GetById(int id);
         Task<List<Imovel>> GetAll();
         Task<List<Imovel>> GetByLeilao(string leilaoId);
         Task<List<Imovel>> GetByStatus(string status);

@@ -25,7 +25,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var statusLeilao = await _context.StatusLeiloes.FindAsync(id);
             if (statusLeilao != null)
@@ -35,7 +35,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<StatusLeilao> GetById(string id)
+        public async Task<StatusLeilao> GetById(int id)
         {
             return await _context.StatusLeiloes.FindAsync(id);
         }

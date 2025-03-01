@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(Permissao permissao);
         Task Update(Permissao permissao);
-        Task Remove(string id);
-        Task<Permissao> GetById(string id);
+        Task Remove(int id);
+        Task<Permissao> GetById(int id);
         Task<List<Permissao>> GetAll();
     }
 }

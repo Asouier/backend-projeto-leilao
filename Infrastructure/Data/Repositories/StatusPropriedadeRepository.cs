@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var statusPropriedade = await _context.StatusPropriedades.FindAsync(id);
             if (statusPropriedade != null)
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<StatusPropriedade> GetById(string id)
+        public async Task<StatusPropriedade> GetById(int id)
         {
             return await _context.StatusPropriedades.FindAsync(id);
         }

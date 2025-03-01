@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var permissao = await _context.Permissoes.FindAsync(id);
             if (permissao != null)
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Permissao> GetById(string id)
+        public async Task<Permissao> GetById(int id)
         {
             return await _context.Permissoes.FindAsync(id);
         }

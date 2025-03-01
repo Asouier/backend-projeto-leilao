@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(Credencial credencial);
         Task Update(Credencial credencial);
-        Task Remove(string id);
-        Task<Credencial> GetById(string id);
+        Task Remove(int id);
+        Task<Credencial> GetById(int id);
         Task<List<Credencial>> GetAll();
         Task<Credencial> GetByNomeUsuario(string nomeUsuario);
     }

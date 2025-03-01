@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(TipoLeilao tipoLeilao);
         Task Update(TipoLeilao tipoLeilao);
-        Task Remove(string id);
-        Task<TipoLeilao> GetById(string id);
+        Task Remove(int id);
+        Task<TipoLeilao> GetById(int id);
         Task<List<TipoLeilao>> GetAll();
     }
 }

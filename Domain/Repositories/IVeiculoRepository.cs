@@ -13,8 +13,8 @@ namespace Domain.Repositories
         {
             Task Add(Veiculo veiculo);
             Task Update(Veiculo veiculo);
-            Task Remove(string id);
-            Task<Veiculo> GetById(string id);
+            Task Remove(int id);
+            Task<Veiculo> GetById(int id);
             Task<List<Veiculo>> GetAll();
             Task<List<Veiculo>> GetByLeilao(string leilaoId);
             Task<List<Veiculo>> GetByStatus(string status);

@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(Contato contato);
         Task Update(Contato contato);
-        Task Remove(string id);
-        Task<Contato> GetById(string id);
+        Task Remove(int id);
+        Task<Contato> GetById(int id);
         Task<List<Contato>> GetAll();
         Task<Contato> GetByEmail(string email);
         Task<List<Contato>> GetByTelefone(string telefone);

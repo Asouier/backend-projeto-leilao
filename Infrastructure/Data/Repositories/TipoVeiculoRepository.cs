@@ -25,7 +25,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var tipoVeiculo = await _context.TiposVeiculo.FindAsync(id);
             if (tipoVeiculo != null)
@@ -35,7 +35,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<TipoVeiculo> GetById(string id)
+        public async Task<TipoVeiculo> GetById(int id)
         {
             return await _context.TiposVeiculo.FindAsync(id);
         }

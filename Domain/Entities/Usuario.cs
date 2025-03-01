@@ -2,26 +2,26 @@
 {
     public class Usuario
     {
-        public int Id { get; private set; }
-        public int CredencialId { get; private set; }
-        public DateTime DataHoraRegistro { get; private set; }
-        public string EntidadeResponsavel { get; private set; } = string.Empty;
-        public string NomeCompleto { get; private set; } = string.Empty;
-        public int ContatoId { get; private set; }
-        public string Cpf { get; private set; } = string.Empty;
-        public string Rg { get; private set; } = string.Empty;
-        public string CargoFuncao { get; private set; } = string.Empty;
-        public int PermissaoId { get; private set; }
-        public int? UsuarioConcessaoId { get; private set; }
-        public string? RegiaoResponsavel { get; private set; }
-        public string? CategoriaResponsavel { get; private set; }
+        public int Id { get; set; }
+        public int CredencialId { get; set; }
+        public DateTime DataHoraRegistro { get; set; }
+        public string EntidadeResponsavel { get; set; } = string.Empty;
+        public string NomeCompleto { get; set; } = string.Empty;
+        public int ContatoId { get; set; }
+        public string Cpf { get; set; } = string.Empty;
+        public string Rg { get; set; } = string.Empty;
+        public string CargoFuncao { get; set; } = string.Empty;
+        public int PermissaoId { get; set; }
+        public int? UsuarioConcessaoId { get; set; }
+        public string? RegiaoResponsavel { get; set; }
+        public string? CategoriaResponsavel { get; set; }
 
-        public Credencial Credencial { get; private set; } = null!;
-        public Contato Contato { get; private set; } = null!;
-        public Permissao Permissao { get; private set; } = null!;
-        public Usuario? UsuarioConcessao { get; private set; }
+        public Credencial Credencial { get; set; } = null!;
+        public Contato Contato { get; set; } = null!;
+        public Permissao Permissao { get; set; } = null!;
+        public Usuario? UsuarioConcessao { get; set; }
 
-        private Usuario() { }
+        public Usuario() { }
 
         public static Usuario Create(int credencialId, string entidadeResponsavel, string nomeCompleto, int contatoId, string cpf, string rg, string cargoFuncao, int permissaoId, int? usuarioConcessaoId = null, string? regiaoResponsavel = null, string? categoriaResponsavel = null)
         {

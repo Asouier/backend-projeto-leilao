@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             var contato = await _context.Contatos.FindAsync(id);
             if (contato != null)
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Contato> GetById(string id)
+        public async Task<Contato> GetById(int id)
         {
             return await _context.Contatos.FindAsync(id);
         }

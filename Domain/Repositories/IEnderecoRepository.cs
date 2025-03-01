@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(Endereco endereco);
         Task Update(Endereco endereco);
-        Task Remove(string id);
-        Task<Endereco> GetById(string id);
+        Task Remove(int id);
+        Task<Endereco> GetById(int id);
         Task<List<Endereco>> GetAll();
         Task<List<Endereco>> GetByCep(string cep);
         Task<List<Endereco>> GetByCidade(string cidade);

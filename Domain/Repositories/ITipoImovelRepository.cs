@@ -11,8 +11,8 @@ namespace Domain.Repositories
     {
         Task Add(TipoImovel tipoImovel);
         Task Update(TipoImovel tipoImovel);
-        Task Remove(string id);
-        Task<TipoImovel> GetById(string id);
+        Task Remove(int id);
+        Task<TipoImovel> GetById(int id);
         Task<List<TipoImovel>> GetAll();
     }
 }
