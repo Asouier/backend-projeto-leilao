@@ -2,16 +2,19 @@
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
+using Infrastructure.Data.Repositories;
 
 namespace Domain.Services
 {
     public class VeiculoService
     {
         private readonly IVeiculoRepository _veiculoRepository;
+        private readonly ILeilaoRepository _leilaoRepository;
 
-        public VeiculoService(IVeiculoRepository veiculoRepository)
+        public VeiculoService(IVeiculoRepository veiculoRepository, ILeilaoRepository leilaoRepository)
         {
             _veiculoRepository = veiculoRepository;
+            _leilaoRepository = leilaoRepository;
         }
 
         // Adiciona um novo veículo
@@ -55,7 +58,43 @@ namespace Domain.Services
                     return "Veículo não encontrado.";
                 }
 
+                var anfitriao = await _leilaoRepository.GetById(veiculo.LeilaoId);
+                if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
+
                 veiculo.AtualizarPropriedadesNaoNulas(novosDados);
+
+                await _veiculoRepository.Update(veiculo);
+                return "Veículo atualizado com sucesso.";
+            }
+            catch (Exception ex)
+            {
+                return $"Erro ao atualizar veículo: {ex.Message}";
+            }
+        }
+        public async Task<string> NovoLance(NovoLanceDto informacoesLance)
+        {
+            try
+            {
+                var veiculo = await _veiculoRepository.GetById(informacoesLance.IdVeiculo);
+                if (veiculo == null)
+                {
+                    return "Veículo não encontrado.";
+                }
+
+                var anfitriao = await _leilaoRepository.GetById(veiculo.LeilaoId);
+                if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
+                if (anfitriao.StatusId != 1) // Trocar para um enum
+                {
+                    return "O Leilão anfitrião não esta mais disponivel, logo não haverão mudanças nas informações do Veiculo";
+                }
+
+                if (informacoesLance.ValorDoLance < veiculo.ValorMinimo)
+                {
+                    return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
+                    //Adicionar log
+                }
+
+                veiculo.AtualizarPropriedadesNaoNulas(informacoesLance);
 
                 await _veiculoRepository.Update(veiculo);
                 return "Veículo atualizado com sucesso.";

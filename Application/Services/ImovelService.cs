@@ -3,16 +3,19 @@ using Application.Models.Imoveis;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
+using Infrastructure.Data.Repositories;
 
 namespace Domain.Services
 {
     public class ImovelService
     {
         private readonly IImovelRepository _imovelRepository;
+        private readonly ILeilaoRepository _leilaoRepository;
 
-        public ImovelService(IImovelRepository imovelRepository)
+        public ImovelService(IImovelRepository imovelRepository, ILeilaoRepository leilaoRepository)
         {
             _imovelRepository = imovelRepository;
+            _leilaoRepository = leilaoRepository;
         }
 
         public async Task<string> AddImovel(AddImovelDto novoImovel)
@@ -52,6 +55,9 @@ namespace Domain.Services
                     return "Imóvel não encontrado.";
                 }
 
+                var anfitriao = await _leilaoRepository.GetById(imovel.LeilaoId);
+                if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
+
                 imovel.AtualizarPropriedadesNaoNulas(novosDados);
 
                 await _imovelRepository.Update(imovel);
@@ -60,6 +66,40 @@ namespace Domain.Services
             catch (Exception ex)
             {
                 return $"Erro ao atualizar imóvel: {ex.Message}";
+            }
+        }
+
+        public async Task<string> NovoLance(NovoLanceDto informacoesLance)
+        {
+            try
+            {
+                var imovel = await _imovelRepository.GetById(informacoesLance.IdImovel);
+                if (imovel == null)
+                {
+                    return "Veículo não encontrado.";
+                }
+
+                var anfitriao = await _leilaoRepository.GetById(imovel.LeilaoId);
+                if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
+                if (anfitriao.StatusId != 1) // Trocar para um enum
+                {
+                    return "O Leilão anfitrião não esta mais disponivel, logo não haverão mudanças nas informações do Veiculo";
+                }
+
+                if (informacoesLance.ValorDoLance < imovel.ValorMinimo)
+                {
+                    return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
+                    //Adicionar log
+                }
+
+                imovel.AtualizarPropriedadesNaoNulas(informacoesLance);
+
+                await _imovelRepository.Update(imovel);
+                return "Veículo atualizado com sucesso.";
+            }
+            catch (Exception ex)
+            {
+                return $"Erro ao atualizar veículo: {ex.Message}";
             }
         }
 
@@ -74,8 +114,6 @@ namespace Domain.Services
             
             try
             {
-               
-
                 await _imovelRepository.Remove(imovel.Id);
                 return "Imóvel removido com sucesso.";
             }

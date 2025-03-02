@@ -25,7 +25,8 @@ namespace Domain.Services
                     Cidade = novoEndereco.Cidade,
                     Estado = novoEndereco.Estado,
                     Cep = novoEndereco.Cep,
-                    Pais = novoEndereco.Pais
+                    Pais = novoEndereco.Pais,
+                    Descricao = novoEndereco.Endereco
                 };
 
                 await _enderecoRepository.Add(endereco);

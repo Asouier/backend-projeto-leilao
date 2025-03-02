@@ -28,6 +28,13 @@ namespace Api.Controllers
             var resultado = await _veiculoService.UpdateVeiculo(novosDados);
             return Ok(resultado);
         }
+        
+        [HttpPut("novoLance")]
+        public async Task<IActionResult> NovoLance([FromBody] NovoLanceDto novosLance)
+        {
+            var resultado = await _veiculoService.NovoLance(novosLance);
+            return Ok(resultado);
+        }
 
         [HttpDelete("remover/{id}")]
         public async Task<IActionResult> RemoveVeiculo(int id)

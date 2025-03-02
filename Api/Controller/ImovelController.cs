@@ -2,7 +2,6 @@
 using Application.Models.Imoveis;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -28,6 +27,13 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateImovel([FromBody] UpdateImovelDto novosDados)
         {
             var resultado = await _imovelService.UpdateImovel(novosDados);
+            return Ok(resultado);
+        }
+
+        [HttpPut("novoLance")]
+        public async Task<IActionResult> NovoLance([FromBody] NovoLanceDto novosLance)
+        {
+            var resultado = await _imovelService.NovoLance(novosLance);
             return Ok(resultado);
         }
 
