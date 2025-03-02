@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Usuarios
+﻿namespace Application.DTOs.Usuarios
 {
     public class UpdateUsuarioDto
     {

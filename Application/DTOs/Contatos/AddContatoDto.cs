@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Contatos
+﻿namespace Application.DTOs.Contatos
 {
     public class AddContatoDto
     {

@@ -2,16 +2,16 @@
 {
     public class Endereco
     {
-        public int Id { get; private set; }
-        public string Cep { get; private set; } = string.Empty;
-        public string Descricao { get; private set; } = string.Empty;
-        public string Cidade { get; private set; } = string.Empty;
-        public string Estado { get; private set; } = string.Empty;
-        public string Pais { get; private set; } = string.Empty;
-        public string Numero { get; private set; } = string.Empty;
-        public string? Complemento { get; private set; }
+        public int Id { get; set; }
+        public string Cep { get; set; } = string.Empty;
+        public string Descricao { get; set; } = string.Empty;
+        public string Cidade { get; set; } = string.Empty;
+        public string Estado { get; set; } = string.Empty;
+        public string Pais { get; set; } = string.Empty;
+        public string Numero { get; set; } = string.Empty;
+        public string? Complemento { get; set; }
 
-        private Endereco() { }
+        public Endereco() { }
 
         public static Endereco Create(string cep, string descricao, string cidade, string estado, string pais, string numero, string? complemento = null)
         {

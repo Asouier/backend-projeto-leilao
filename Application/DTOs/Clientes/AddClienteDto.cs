@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Clientes
+﻿namespace Application.DTOs.Clientes
 {
     public class AddClienteDto
     {

@@ -2,9 +2,9 @@
 {
     public class Credencial
     {
-        public int Id { get; private set; }
-        public string NomeUsuario { get; private set; } = string.Empty;
-        public string Senha { get; private set; } = string.Empty;
+        public int Id { get; set; }
+        public string NomeUsuario { get; set; } = string.Empty;
+        public string Senha { get; set; } = string.Empty;
 
         private Credencial() { }
 

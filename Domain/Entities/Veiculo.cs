@@ -2,30 +2,30 @@
 {
     public class Veiculo
     {
-        public int Id { get; private set; }
-        public int LeilaoId { get; private set; }
-        public int TipoVeiculoId { get; private set; }
-        public string Placa { get; private set; } = string.Empty;
-        public string Chassi { get; private set; } = string.Empty;
-        public string Marca { get; private set; } = string.Empty;
-        public string Modelo { get; private set; } = string.Empty;
-        public int AnoFabricacao { get; private set; }
-        public string Cor { get; private set; } = string.Empty;
-        public decimal ValorMinimo { get; private set; }
-        public int StatusPropriedadeId { get; private set; }
-        public DateTime DataHoraCadastro { get; private set; }
-        public int UsuarioCadastroId { get; private set; }
-        public DateTime DataRecolhimento { get; private set; }
-        public string MotivoRecolhimento { get; private set; } = string.Empty;
-        public int? ClienteArrematanteId { get; private set; }
+        public int Id { get; set; }
+        public int LeilaoId { get; set; }
+        public int TipoVeiculoId { get; set; }
+        public string Placa { get; set; } = string.Empty;
+        public string Chassi { get; set; } = string.Empty;
+        public string Marca { get; set; } = string.Empty;
+        public string Modelo { get; set; } = string.Empty;
+        public int AnoFabricacao { get; set; }
+        public string Cor { get; set; } = string.Empty;
+        public decimal ValorMinimo { get; set; }
+        public int StatusPropriedadeId { get; set; }
+        public DateTime DataHoraCadastro { get; set; }
+        public int UsuarioCadastroId { get; set; }
+        public DateTime DataRecolhimento { get; set; }
+        public string MotivoRecolhimento { get; set; } = string.Empty;
+        public int? ClienteArrematanteId { get; set; }
 
-        public Leilao Leilao { get; private set; } = null!;
-        public TipoVeiculo TipoVeiculo { get; private set; } = null!;
-        public StatusPropriedade StatusPropriedade { get; private set; } = null!;
-        public Usuario UsuarioCadastro { get; private set; } = null!;
-        public Cliente? ClienteArrematante { get; private set; }
+        public Leilao Leilao { get; set; } = null!;
+        public TipoVeiculo TipoVeiculo { get; set; } = null!;
+        public StatusPropriedade StatusPropriedade { get; set; } = null!;
+        public Usuario UsuarioCadastro { get; set; } = null!;
+        public Cliente? ClienteArrematante { get; set; }
 
-        private Veiculo() { }
+        public Veiculo() { }
 
         public static Veiculo Create(int leilaoId, int tipoVeiculoId, string placa, string chassi, string marca, string modelo, int anoFabricacao, string cor, decimal valorMinimo, int statusPropriedadeId, int usuarioCadastroId, DateTime dataRecolhimento, string motivoRecolhimento, int? clienteArrematanteId = null)
         {

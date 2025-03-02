@@ -2,29 +2,29 @@
 {
     public class Leilao
     {
-        public int Id { get; private set; }
-        public int TipoLeilaoId { get; private set; }
-        public int StatusId { get; private set; }
-        public int EnderecoId { get; private set; }
-        public DateTime DataHoraInicio { get; private set; }
-        public DateTime DataHoraFim { get; private set; }
-        public string UrlLeilao { get; private set; } = string.Empty;
-        public int UsuarioCadastroId { get; private set; }
-        public int? UsuarioAprovacaoId { get; private set; }
-        public decimal TaxaAdministrativa { get; private set; }
-        public decimal ValorArrecadado { get; private set; }
-        public DateTime DataHoraRegistro { get; private set; }
-        public DateTime DataHoraAtualizacao { get; private set; }
+        public int Id { get; set; }
+        public int TipoLeilaoId { get; set; }
+        public int StatusId { get; set; }
+        public int? EnderecoId { get; set; }
+        public DateTime DataHoraInicio { get; set; }
+        public DateTime DataHoraFim { get; set; }
+        public string? UrlLeilao { get; set; } = string.Empty;
+        public int UsuarioCadastroId { get; set; }
+        public int? UsuarioAprovacaoId { get; set; }
+        public decimal TaxaAdministrativa { get; set; }
+        public decimal ValorArrecadado { get; set; }
+        public DateTime DataHoraRegistro { get; set; }
+        public DateTime DataHoraAtualizacao { get; set; }
 
-        public TipoLeilao TipoLeilao { get; private set; } = null!;
+        public TipoLeilao TipoLeilao { get; set; } = null!;
         public ICollection<Imovel>? Imoveis { get; set; }
         public ICollection<Veiculo>? Veiculos { get; set; }
-        public StatusLeilao Status { get; private set; } = null!;
-        public Endereco Endereco { get; private set; } = null!;
-        public Usuario UsuarioCadastro { get; private set; } = null!;
-        public Usuario? UsuarioAprovacao { get; private set; }
+        public StatusLeilao Status { get; set; } = null!;
+        public Endereco Endereco { get; set; } = null!;
+        public Usuario UsuarioCadastro { get; set; } = null!;
+        public Usuario? UsuarioAprovacao { get; set; }
 
-        private Leilao() { }
+        public Leilao() { }
 
         public static Leilao Create(int tipoLeilaoId, int statusId, int enderecoId, DateTime dataHoraInicio, DateTime dataHoraFim, string urlLeilao, ICollection<Imovel>? imoveis, ICollection<Veiculo>? veiculos, int usuarioCadastroId, decimal taxaAdministrativa, int? usuarioAprovacaoId = null)
         {

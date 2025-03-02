@@ -16,7 +16,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task Add(Leilao leilao)
         {
-            await _context.Leiloes.AllAsync(leilao);
+            await _context.Leiloes.AddAsync(leilao);
             await _context.SaveChangesAsync();
         }
 
@@ -31,12 +31,12 @@ namespace Infrastructure.Data.Repositories
             var leilao = await _context.Leiloes.FindAsync(id);
             if (leilao != null)
             {
-                leilao.StatusId = "Encerrado"; // Supondo que "Encerrado" é um status válido
+                leilao.StatusId = 3; // "Encerrado"; // Supondo que "Encerrado" é um status válido
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<Leilao> GetById(int id)
+        public async Task<Leilao?> GetById(int id)
         {
             return await _context.Leiloes.FindAsync(id);
         }
@@ -46,12 +46,12 @@ namespace Infrastructure.Data.Repositories
             return await _context.Leiloes.ToListAsync();
         }
 
-        public async Task<List<Leilao>> GetByStatus(string status)
+        public async Task<List<Leilao>> GetByStatus(int statusId)
         {
-            return await _context.Leiloes.Where(l => l.StatusId == status).ToListAsync();
+            return await _context.Leiloes.Where(l => l.StatusId == statusId).ToListAsync();
         }
 
-        public async Task<List<Leilao>> GetByTipoLeilao(string tipoLeilaoId)
+        public async Task<List<Leilao>> GetByTipoLeilao(int tipoLeilaoId)
         {
             return await _context.Leiloes.Where(l => l.TipoLeilaoId == tipoLeilaoId).ToListAsync();
         }

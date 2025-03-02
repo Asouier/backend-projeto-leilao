@@ -2,13 +2,13 @@
 {
     public class RepresentanteLegal
     {
-        public int Id { get; private set; }
-        public string Nome { get; private set; } = string.Empty;
-        public string Cpf { get; private set; } = string.Empty;
-        public string DocumentoIdentificacao { get; private set; } = string.Empty;
-        public int? ContatoId { get; private set; }
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Cpf { get; set; } = string.Empty;
+        public string DocumentoIdentificacao { get; set; } = string.Empty;
+        public int? ContatoId { get; set; }
 
-        public Contato? Contato { get; private set; }
+        public Contato? Contato { get; set; }
 
         private RepresentanteLegal() { }
 

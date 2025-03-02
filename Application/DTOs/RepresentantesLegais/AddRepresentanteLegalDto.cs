@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.RepresentantesLegais
+﻿namespace Application.DTOs.RepresentantesLegais
 {
     public class AddRepresentanteLegalDto
     {

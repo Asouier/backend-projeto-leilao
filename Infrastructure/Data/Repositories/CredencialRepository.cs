@@ -1,5 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -18,6 +21,13 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Credencial> AddAndReturn(Credencial credencial)
+        {
+            await _context.Credenciais.AddAsync(credencial);
+            await _context.SaveChangesAsync();
+            return credencial;
+        }
+
         public async Task Update(Credencial credencial)
         {
             _context.Credenciais.Update(credencial);
@@ -34,7 +44,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Credencial> GetById(int id)
+        public async Task<Credencial?> GetById(int id)
         {
             return await _context.Credenciais.FindAsync(id);
         }
@@ -44,7 +54,7 @@ namespace Infrastructure.Data.Repositories
             return await _context.Credenciais.ToListAsync();
         }
 
-        public async Task<Credencial> GetByNomeUsuario(string nomeUsuario)
+        public async Task<Credencial?> GetByNomeUsuario(string nomeUsuario)
         {
             return await _context.Credenciais.FirstOrDefaultAsync(c => c.NomeUsuario == nomeUsuario);
         }

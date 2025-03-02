@@ -1,9 +1,4 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -12,8 +7,7 @@ namespace Domain.Repositories
         Task Add(RepresentanteLegal representanteLegal);
         Task Update(RepresentanteLegal representanteLegal);
         Task Remove(int id);
-        Task<RepresentanteLegal> GetById(int id);
-        Task<List<RepresentanteLegal>> GetAll();
-        Task<RepresentanteLegal> GetByCpf(string cpf);
+        Task<RepresentanteLegal?> GetById(int id);
+        Task<RepresentanteLegal?> GetByCpf(string cpf);
     }
 }

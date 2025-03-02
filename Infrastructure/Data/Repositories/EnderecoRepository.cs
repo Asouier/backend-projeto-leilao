@@ -20,6 +20,13 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Endereco> AddAndReturn(Endereco endereco)
+        {
+            await _context.Enderecos.AddAsync(endereco);
+            await _context.SaveChangesAsync();
+            return endereco;
+        }
+
         public async Task Update(Endereco endereco)
         {
             _context.Enderecos.Update(endereco);
@@ -36,7 +43,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Endereco> GetById(int id)
+        public async Task<Endereco?> GetById(int id)
         {
             return await _context.Enderecos.FindAsync(id);
         }

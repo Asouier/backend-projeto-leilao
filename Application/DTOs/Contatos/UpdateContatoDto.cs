@@ -1,4 +1,4 @@
-﻿namespace Api.Models.Contatos
+﻿namespace Application.Models.Contatos
 {
     public class UpdateContatoDto
     {

@@ -21,15 +21,17 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configuração do pipeline de requisição HTTP
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.MapOpenApi();
 }
 
-// Ativa o CORS antes de qualquer outro middleware
 app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();

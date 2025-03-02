@@ -20,6 +20,13 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<RepresentanteLegal> AddAndReturn(RepresentanteLegal representanteLegal)
+        {
+            await _context.RepresentantesLegais.AddAsync(representanteLegal);
+            await _context.SaveChangesAsync();
+            return representanteLegal;
+        }
+
         public async Task Update(RepresentanteLegal representanteLegal)
         {
             _context.RepresentantesLegais.Update(representanteLegal);
@@ -36,17 +43,12 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<RepresentanteLegal> GetById(int id)
+        public async Task<RepresentanteLegal?> GetById(int id)
         {
             return await _context.RepresentantesLegais.FindAsync(id);
         }
 
-        public async Task<List<RepresentanteLegal>> GetAll()
-        {
-            return await _context.RepresentantesLegais.ToListAsync();
-        }
-
-        public async Task<RepresentanteLegal> GetByCpf(string cpf)
+        public async Task<RepresentanteLegal?> GetByCpf(string cpf)
         {
             return await _context.RepresentantesLegais.FirstOrDefaultAsync(r => r.Cpf == cpf);
         }

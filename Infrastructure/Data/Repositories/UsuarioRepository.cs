@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Usuario> GetById(int id)
+        public async Task<Usuario?> GetById(int id)
         {
             return await _context.Usuarios.FindAsync(id);
         }
@@ -46,7 +46,7 @@ namespace Infrastructure.Data.Repositories
             return await _context.Usuarios.ToListAsync();
         }
 
-        public async Task<Usuario> GetByCpf(string cpf)
+        public async Task<Usuario?> GetByCpf(string cpf)
         {
             return await _context.Usuarios.FirstOrDefaultAsync(u => u.Cpf == cpf);
         }

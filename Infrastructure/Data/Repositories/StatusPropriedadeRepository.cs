@@ -20,6 +20,13 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<StatusPropriedade> AddAndReturn(StatusPropriedade statusPropriedade)
+        {
+            await _context.StatusPropriedades.AddAsync(statusPropriedade);
+            await _context.SaveChangesAsync();
+            return statusPropriedade;
+        }
+
         public async Task Update(StatusPropriedade statusPropriedade)
         {
             _context.StatusPropriedades.Update(statusPropriedade);
@@ -36,7 +43,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<StatusPropriedade> GetById(int id)
+        public async Task<StatusPropriedade?> GetById(int id)
         {
             return await _context.StatusPropriedades.FindAsync(id);
         }

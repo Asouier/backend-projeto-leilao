@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Enderecos
+﻿namespace Application.DTOs.Enderecos
 {
     public class UpdateEnderecoDto
     {

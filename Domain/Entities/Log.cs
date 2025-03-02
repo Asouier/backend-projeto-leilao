@@ -2,20 +2,20 @@
 {
     public class Log
     {
-        public int Id { get; private set; }
-        public int UsuarioId { get; private set; }
-        public int? ClienteId { get; private set; }
-        public int? LeilaoId { get; private set; }
-        public string Entidade { get; private set; } = string.Empty;
-        public int EntidadeId { get; private set; }
-        public DateTime DataHora { get; private set; }
-        public string Acao { get; private set; } = string.Empty;
+        public int Id { get; set; }
+        public int UsuarioId { get; set; }
+        public int? ClienteId { get; set; }
+        public int? LeilaoId { get; set; }
+        public string Entidade { get; set; } = string.Empty;
+        public int EntidadeId { get; set; }
+        public DateTime DataHora { get; set; }
+        public string Acao { get; set; } = string.Empty;
 
-        public Usuario Usuario { get; private set; } = null!;
-        public Cliente? Cliente { get; private set; }
-        public Leilao? Leilao { get; private set; }
+        public Usuario Usuario { get; set; } = null!;
+        public Cliente? Cliente { get; set; }
+        public Leilao? Leilao { get; set; }
 
-        private Log() { }
+        public Log() { }
 
         public static Log Create(int usuarioId, int? clienteId, int? leilaoId, string entidade, int entidadeId, string acao)
         {

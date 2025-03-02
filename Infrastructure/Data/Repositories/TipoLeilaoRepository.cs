@@ -20,6 +20,13 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<TipoLeilao> AddAndReturn(TipoLeilao tipoLeilao)
+        {
+            await _context.TiposLeilao.AddAsync(tipoLeilao);
+            await _context.SaveChangesAsync();
+            return tipoLeilao;
+        }
+
         public async Task Update(TipoLeilao tipoLeilao)
         {
             _context.TiposLeilao.Update(tipoLeilao);
@@ -36,7 +43,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<TipoLeilao> GetById(int id)
+        public async Task<TipoLeilao?> GetById(int id)
         {
             return await _context.TiposLeilao.FindAsync(id);
         }

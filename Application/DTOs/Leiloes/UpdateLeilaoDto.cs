@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Leiloes
+﻿namespace Application.DTOs.Leiloes
 {
     public class UpdateLeilaoDto
     {

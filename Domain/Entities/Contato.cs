@@ -2,11 +2,11 @@
 {
     public class Contato
     {
-        public int Id { get; private set; }
-        public string Email { get; private set; } = string.Empty;
-        public string Telefone { get; private set; } = string.Empty;
+        public int Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Telefone { get; set; } = string.Empty;
 
-        private Contato() { }
+        public Contato() { }
 
         public static Contato Create(string email, string telefone)
         {

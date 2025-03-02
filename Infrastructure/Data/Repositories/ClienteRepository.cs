@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Cliente> GetById(int id)
+        public async Task<Cliente?> GetById(int id)
         {
             return await _context.Clientes.FindAsync(id);
         }
@@ -46,17 +46,19 @@ namespace Infrastructure.Data.Repositories
             return await _context.Clientes.ToListAsync();
         }
 
-        public async Task<List<Cliente>> GetByNome(string nome)
+        public async Task<List<Cliente>?> GetByNome(string nome)
         {
-            return await _context.Clientes.Where(c => c.NomeCompleto.Contains(nome)).ToListAsync();
+            return await _context.Clientes
+        .Where(c => c.NomeCompleto != null && c.NomeCompleto.Contains(nome))
+        .ToListAsync();
         }
 
-        public async Task<List<Cliente>> GetByCpf(string cpf)
+        public async Task<List<Cliente>?> GetByCpf(string cpf)
         {
             return await _context.Clientes.Where(c => c.Cpf == cpf).ToListAsync();
         }
 
-        public async Task<List<Cliente>> GetByCnpj(string cnpj)
+        public async Task<List<Cliente>?> GetByCnpj(string cnpj)
         {
             return await _context.Clientes.Where(c => c.Cnpj == cnpj).ToListAsync();
         }

@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -19,6 +20,13 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<TipoImovel> AddAndReturn(TipoImovel tipoImovel)
+        {
+            await _context.TiposImovel.AddAsync(tipoImovel);
+            await _context.SaveChangesAsync();
+            return tipoImovel;
+        }
+
         public async Task Update(TipoImovel tipoImovel)
         {
             _context.TiposImovel.Update(tipoImovel);
@@ -35,7 +43,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<TipoImovel> GetById(int id)
+        public async Task<TipoImovel?> GetById(int id)
         {
             return await _context.TiposImovel.FindAsync(id);
         }

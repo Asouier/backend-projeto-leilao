@@ -19,6 +19,12 @@ namespace Infrastructure.Data.Repositories
             await _context.Permissoes.AddAsync(permissao);
             await _context.SaveChangesAsync();
         }
+        public async Task<Permissao> AddAndReturn(Permissao permissao)
+        {
+            _context.Permissoes.Add(permissao);
+            await _context.SaveChangesAsync();
+            return permissao;
+        }
 
         public async Task Update(Permissao permissao)
         {
@@ -36,7 +42,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Permissao> GetById(int id)
+        public async Task<Permissao?> GetById(int id)
         {
             return await _context.Permissoes.FindAsync(id);
         }

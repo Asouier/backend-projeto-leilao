@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Credenciais
+﻿namespace Application.DTOs.Credenciais
 {
     public class UpdateCredencialDto
     {

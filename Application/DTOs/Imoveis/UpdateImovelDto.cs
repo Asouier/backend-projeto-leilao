@@ -1,4 +1,4 @@
-﻿namespace Api.Models.Imoveis
+﻿namespace Application.Models.Imoveis
 {
     public class UpdateImovelDto
     {

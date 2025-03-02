@@ -2,8 +2,8 @@
 {
     public class TipoLeilao
     {
-        public int Id { get; private set; }
-        public string Descricao { get; private set; } = string.Empty;
+        public int Id { get; set; }
+        public string Descricao { get; set; } = string.Empty;
 
         private TipoLeilao() { }
 

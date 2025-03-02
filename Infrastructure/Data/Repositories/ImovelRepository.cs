@@ -1,5 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -34,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Imovel> GetById(int id)
+        public async Task<Imovel?> GetById(int id)
         {
             return await _context.Imoveis.FindAsync(id);
         }
@@ -44,14 +46,14 @@ namespace Infrastructure.Data.Repositories
             return await _context.Imoveis.ToListAsync();
         }
 
-        public async Task<List<Imovel>> GetByLeilao(string leilaoId)
+        public async Task<List<Imovel>> GetByLeilao(int leilaoId)
         {
             return await _context.Imoveis.Where(i => i.LeilaoId == leilaoId).ToListAsync();
         }
 
-        public async Task<List<Imovel>> GetByStatus(string status)
+        public async Task<List<Imovel>> GetByStatus(int statusId)
         {
-            return await _context.Imoveis.Where(i => i.StatusPropriedadeId == status).ToListAsync();
+            return await _context.Imoveis.Where(i => i.StatusPropriedadeId == statusId).ToListAsync();
         }
     }
 }

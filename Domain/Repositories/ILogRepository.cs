@@ -1,9 +1,4 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -11,7 +6,7 @@ namespace Domain.Repositories
     {
         Task Add(Log log);
         Task<List<Log>> GetAll();
-        Task<List<Log>> GetByUsuario(string usuarioId);
+        Task<List<Log>> GetByUsuario(int usuarioId);
         Task<List<Log>> GetByEntidade(string entidade);
         Task<List<Log>> GetByAcao(string acao);
     }

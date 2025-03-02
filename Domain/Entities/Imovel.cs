@@ -2,28 +2,28 @@
 {
     public class Imovel
     {
-        public int Id { get; private set; }
-        public int TipoImovelId { get; private set; }
-        public int LeilaoId { get; private set; }
-        public int EnderecoId { get; private set; }
-        public decimal AreaTotal { get; private set; }
-        public int QuantidadeComodos { get; private set; }
-        public decimal ValorMinimo { get; private set; }
-        public int StatusPropriedadeId { get; private set; }
-        public DateTime DataHoraCadastro { get; private set; }
-        public int UsuarioCadastroId { get; private set; }
-        public DateTime DataRecolhimento { get; private set; }
-        public string MotivoRecolhimento { get; private set; } = string.Empty;
-        public int? ClienteArrematanteId { get; private set; }
+        public int Id { get; set; }
+        public int TipoImovelId { get; set; }
+        public int LeilaoId { get; set; }
+        public int EnderecoId { get; set; }
+        public decimal AreaTotal { get; set; }
+        public int? QuantidadeComodos { get; set; }
+        public decimal ValorMinimo { get; set; }
+        public int StatusPropriedadeId { get; set; }
+        public DateTime DataHoraCadastro { get; set; }
+        public int UsuarioCadastroId { get; set; }
+        public DateTime DataRecolhimento { get; set; }
+        public string MotivoRecolhimento { get; set; } = string.Empty;
+        public int? ClienteArrematanteId { get; set; }
 
-        public TipoImovel TipoImovel { get; private set; } = null!;
-        public Leilao Leilao { get; private set; } = null!;
-        public Endereco Endereco { get; private set; } = null!;
-        public StatusPropriedade StatusPropriedade { get; private set; } = null!;
-        public Usuario UsuarioCadastro { get; private set; } = null!;
-        public Cliente? ClienteArrematante { get; private set; }
+        public TipoImovel TipoImovel { get; set; } = null!;
+        public Leilao Leilao { get; set; } = null!;
+        public Endereco Endereco { get; set; } = null!;
+        public StatusPropriedade StatusPropriedade { get; set; } = null!;
+        public Usuario UsuarioCadastro { get; set; } = null!;
+        public Cliente? ClienteArrematante { get; set; }
 
-        private Imovel() { }
+        public Imovel() { }
 
         public static Imovel Create(int tipoImovelId, int leilaoId, int enderecoId, decimal areaTotal, int quantidadeComodos, decimal valorMinimo, int statusPropriedadeId, int usuarioCadastroId, DateTime dataRecolhimento, string motivoRecolhimento, int? clienteArrematanteId = null)
         {

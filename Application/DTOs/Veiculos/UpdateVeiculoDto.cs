@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Veiculos
+﻿namespace Application.DTOs.Veiculos
 {
     public class UpdateVeiculoDto
     {

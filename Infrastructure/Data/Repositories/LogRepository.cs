@@ -25,7 +25,7 @@ namespace Infrastructure.Data.Repositories
             return await _context.Logs.ToListAsync();
         }
 
-        public async Task<List<Log>> GetByUsuario(string usuarioId)
+        public async Task<List<Log>> GetByUsuario(int usuarioId)
         {
             return await _context.Logs.Where(l => l.UsuarioId == usuarioId).ToListAsync();
         }

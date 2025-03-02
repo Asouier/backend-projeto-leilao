@@ -1,4 +1,4 @@
-﻿namespace Api.DTOs.Logs
+﻿namespace Application.DTOs.Logs
 {
     public class AddLogDto
     {

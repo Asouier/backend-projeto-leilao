@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Data.Repositores;
 using Domain.Entities;
-using Domain.Repositories.Domain.Repositories;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<Veiculo> GetById(int id)
+        public async Task<Veiculo?> GetById(int id)
         {
             return await _context.Veiculos.FindAsync(id);
         }
@@ -46,14 +46,14 @@ namespace Infrastructure.Data.Repositories
             return await _context.Veiculos.ToListAsync();
         }
 
-        public async Task<List<Veiculo>> GetByLeilao(string leilaoId)
+        public async Task<List<Veiculo>> GetByLeilao(int leilaoId)
         {
             return await _context.Veiculos.Where(v => v.LeilaoId == leilaoId).ToListAsync();
         }
 
-        public async Task<List<Veiculo>> GetByStatus(string status)
+        public async Task<List<Veiculo>> GetByStatus(int statusId)
         {
-            return await _context.Veiculos.Where(v => v.StatusPropriedadeId == status).ToListAsync();
+            return await _context.Veiculos.Where(v => v.StatusPropriedadeId == statusId).ToListAsync();
         }
     }
 }
