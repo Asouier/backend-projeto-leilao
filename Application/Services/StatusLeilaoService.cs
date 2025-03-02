@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.StatusLeiloes;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class StatusLeilaoService
+    public class StatusLeilaoService: IStatusLeilaoService
     {
         private readonly IStatusLeilaoRepository _statusLeilaoRepository;
 

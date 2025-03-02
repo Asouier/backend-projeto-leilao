@@ -12,5 +12,6 @@ namespace Domain.Repositories
         Task<List<Cliente>?> GetByNome(string nome);
         Task<List<Cliente>?> GetByCpf(string cpf);
         Task<List<Cliente>?> GetByCnpj(string cnpj);
+        Task<Cliente?> GetByCredencialId(int credencialId);
     }
 }

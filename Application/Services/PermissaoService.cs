@@ -1,10 +1,11 @@
 ﻿using Application.DTOs.Permissoes;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class PermissaoService
+    public class PermissaoService: IPermissaoService
     {
         private readonly IPermissaoRepository _permissaoRepository;
 

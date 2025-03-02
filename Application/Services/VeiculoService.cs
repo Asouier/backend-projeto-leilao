@@ -71,7 +71,7 @@ namespace Domain.Services
                 return $"Erro ao atualizar veículo: {ex.Message}";
             }
         }
-        public async Task<string> NovoLance(NovoLanceDto informacoesLance)
+        public async Task<string> NovoLance(NovoLanceVeiculoDto informacoesLance)
         {
             try
             {

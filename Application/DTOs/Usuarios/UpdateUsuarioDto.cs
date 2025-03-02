@@ -4,6 +4,7 @@
     {
         public string? NomeCompleto { get; set; }
         public string? Rg { get; set; }
+        public required string Cpf { get; set; }
         public string? CargoFuncao { get; set; }
         public string? EntidadeResponsavel { get; set; }
         public int? PermissaoId { get; set; }

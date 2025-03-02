@@ -1,12 +1,14 @@
 ﻿using Application.DTOs.Usuarios;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 using Infrastructure.Data.Persistence;
+using Infrastructure.Data.Repositories;
 
 namespace Application.Services
 {
-    public class UsuarioService
+    public class UsuarioService: IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly AppDbContext _context;
@@ -67,11 +69,11 @@ namespace Application.Services
         }
 
 
-        public async Task<string> UpdateUsuario(string cpf, UpdateUsuarioDto dadosAtualizados)
+        public async Task<string> UpdateUsuario(UpdateUsuarioDto dadosAtualizados)
         {
             try
             {
-                var usuario = await _usuarioRepository.GetByCpf(cpf);
+                var usuario = await _usuarioRepository.GetByCpf(dadosAtualizados.Cpf);
                 if (usuario == null)
                 {
                     return "Usuário não encontrado.";
@@ -115,6 +117,10 @@ namespace Application.Services
         public async Task<Usuario?> GetUsuarioByCpf(string cpf)
         {
             return await _usuarioRepository.GetByCpf(cpf);
+        }
+        public async Task<Usuario?> GetClienteByCredencialId(int credencialId)
+        {
+            return await _usuarioRepository.GetByCredencialId(credencialId);
         }
     }
 }

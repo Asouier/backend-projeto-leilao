@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.StatusPropriedades;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class StatusPropriedadeService
+    public class StatusPropriedadeService: IStatusPropriedadeService
     {
         private readonly IStatusPropriedadeRepository _statusPropriedadeRepository;
 

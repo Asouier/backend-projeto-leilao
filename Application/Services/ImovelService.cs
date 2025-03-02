@@ -69,7 +69,7 @@ namespace Domain.Services
             }
         }
 
-        public async Task<string> NovoLance(NovoLanceDto informacoesLance)
+        public async Task<string> NovoLance(NovoLanceImovelDto informacoesLance)
         {
             try
             {

@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.TipoImoveis;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class TipoImovelService
+    public class TipoImovelService: ITipoImovelService
     {
         private readonly ITipoImovelRepository _tipoImovelRepository;
 

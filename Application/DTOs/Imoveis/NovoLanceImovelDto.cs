@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs.Imoveis
 {
-    public class NovoLanceDto
+    public class NovoLanceImovelDto
     {
         public required string IdUsuarioArrematante { get; set; }
         public required decimal ValorDoLance { get; set; }

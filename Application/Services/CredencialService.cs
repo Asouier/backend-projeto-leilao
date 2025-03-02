@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.Credenciais;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class CredencialService
+    public class CredencialService: ICredencialService
     {
         private readonly ICredencialRepository _credencialRepository;
 
@@ -28,7 +29,20 @@ namespace Domain.Services
                 return $"Erro ao adicionar credencial: {ex.Message}";
             }
         }
-
+        public async Task<bool> GetAccess(Credencial credencial)
+        {
+            try
+            {
+                var acesso = await _credencialRepository.GetByNomeUsuario(credencial.NomeUsuario);
+                if (acesso == null) return false;
+                if (credencial.Senha != acesso.Senha) return false;
+                else return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         public async Task<string> UpdateCredencial(UpdateCredencialDto novosDados)
         {
             try

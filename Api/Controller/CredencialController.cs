@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Credenciais;
+using Domain.Entities;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,13 @@ namespace Api.Controllers
         public CredencialController(CredencialService credencialService)
         {
             _credencialService = credencialService;
+        }
+
+        [HttpGet("acesso")]
+        public async Task<bool> GetAccess(Credencial credencial)
+        {
+            var resultado = await _credencialService.GetAccess(credencial);
+            return resultado;
         }
 
         [HttpPost("adicionar")]

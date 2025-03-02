@@ -55,5 +55,9 @@ namespace Infrastructure.Data.Repositories
         {
             return await _context.Usuarios.Where(u => u.CargoFuncao == cargo).ToListAsync();
         }
+        public async Task<Usuario?> GetByCredencialId(int credencialId)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(c => c.CredencialId == credencialId);
+        }
     }
 }

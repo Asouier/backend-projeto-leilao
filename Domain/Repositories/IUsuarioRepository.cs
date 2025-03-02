@@ -16,5 +16,6 @@ namespace Domain.Repositories
         Task<List<Usuario>> GetAll();
         Task<Usuario?> GetByCpf(string cpf);
         Task<List<Usuario>> GetByCargo(string cargo);
+        Task<Usuario?> GetByCredencialId(int credencialId);
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.RepresentantesLegais;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class RepresentanteLegalService
+    public class RepresentanteLegalService: IRepresentanteLegalService
     {
         private readonly IRepresentanteLegalRepository _representanteLegalRepository;
 

@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Clientes;
+using Domain.Entities;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -68,6 +69,13 @@ namespace Api.Controllers
         public async Task<IActionResult> GetClientesByCnpj(string cnpj)
         {
             var clientes = await _clienteService.GetClientesByCnpj(cnpj);
+            return Ok(clientes);
+        }
+
+        [HttpGet("registro/{credencialId}")]
+        public async Task<IActionResult> GetClienteByCredencialId(int credencialId)
+        {
+            var clientes = await _clienteService.GetClienteByCredencialId(credencialId);
             return Ok(clientes);
         }
     }

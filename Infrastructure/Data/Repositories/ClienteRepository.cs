@@ -62,5 +62,10 @@ namespace Infrastructure.Data.Repositories
         {
             return await _context.Clientes.Where(c => c.Cnpj == cnpj).ToListAsync();
         }
+        public async Task<Cliente?> GetByCredencialId(int credencialId)
+        {
+            return await _context.Clientes.FirstOrDefaultAsync(c => c.CredencialId == credencialId);
+        }
+
     }
 }

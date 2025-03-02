@@ -2,6 +2,7 @@
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Helpers;
+using Domain.Entities;
 
 namespace Api.Controllers
 {
@@ -24,10 +25,10 @@ namespace Api.Controllers
         }
 
         [HttpPut("atualizar")]
-        public async Task<IActionResult> UpdateUsuario([FromBody] string cpf, [FromBody] UpdateUsuarioDto dadosAtualizados)
+        public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto dadosAtualizados)
         {
-            var cpfDescriptografado = EncryptionHelper.Decrypt(cpf);
-            await _usuarioService.UpdateUsuario(cpfDescriptografado, dadosAtualizados);
+            var cpfDescriptografado = EncryptionHelper.Decrypt(dadosAtualizados.Cpf);
+            await _usuarioService.UpdateUsuario(dadosAtualizados);
             return Ok("Usuário atualizado com sucesso.");
         }
 
@@ -50,6 +51,13 @@ namespace Api.Controllers
         {
             var cpfDescriptografado = EncryptionHelper.Decrypt(cpf);
             var usuario = await _usuarioService.GetUsuarioByCpf(cpfDescriptografado);
+            return Ok(usuario);
+        }
+
+        [HttpGet("registro/{credencialId}")]
+        public async Task<IActionResult> GetClienteByCredencialId(int credencialId)
+        {
+            var usuario = await _usuarioService.GetClienteByCredencialId(credencialId);
             return Ok(usuario);
         }
     }

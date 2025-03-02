@@ -30,7 +30,7 @@ namespace Api.Controllers
         }
         
         [HttpPut("novoLance")]
-        public async Task<IActionResult> NovoLance([FromBody] NovoLanceDto novosLance)
+        public async Task<IActionResult> NovoLance([FromBody] NovoLanceVeiculoDto novosLance)
         {
             var resultado = await _veiculoService.NovoLance(novosLance);
             return Ok(resultado);

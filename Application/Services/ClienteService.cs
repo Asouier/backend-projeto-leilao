@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Clientes;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
@@ -6,7 +7,7 @@ using Infrastructure.Data.Persistence;
 
 namespace Domain.Services
 {
-    public class ClienteService
+    public class ClienteService: IClienteService
     {
         private readonly IClienteRepository _clienteRepository;
         private readonly AppDbContext _context;
@@ -140,6 +141,11 @@ namespace Domain.Services
         public async Task<List<Cliente>?> GetClientesByCnpj(string cnpj)
         {
             return await _clienteRepository.GetByCnpj(cnpj);
+        }
+
+        public async Task<Cliente?> GetClienteByCredencialId(int credencialId)
+        {
+            return await _clienteRepository.GetByCredencialId(credencialId);
         }
     }
 }

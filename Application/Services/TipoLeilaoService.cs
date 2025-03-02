@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.TipoLeiloes;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class TipoLeilaoService
+    public class TipoLeilaoService: ITipoLeilaoService
     {
         private readonly ITipoLeilaoRepository _tipoLeilaoRepository;
 

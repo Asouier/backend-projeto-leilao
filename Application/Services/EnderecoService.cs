@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.Enderecos;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class EnderecoService
+    public class EnderecoService: IEnderecoService
     {
         private readonly IEnderecoRepository _enderecoRepository;
 

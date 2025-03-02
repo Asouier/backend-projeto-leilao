@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Contatos;
+using Application.IServices;
 using Application.Models.Contatos;
 using Domain.Entities;
 using Domain.Extensions;
@@ -6,7 +7,7 @@ using Domain.Repositories;
 
 namespace Domain.Services
 {
-    public class ContatoService
+    public class ContatoService: IContatoService
     {
         private readonly IContatoRepository _contatoRepository;
 
