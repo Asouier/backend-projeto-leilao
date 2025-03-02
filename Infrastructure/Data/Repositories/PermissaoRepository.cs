@@ -19,12 +19,6 @@ namespace Infrastructure.Data.Repositories
             await _context.Permissoes.AddAsync(permissao);
             await _context.SaveChangesAsync();
         }
-        public async Task<Permissao> AddAndReturn(Permissao permissao)
-        {
-            _context.Permissoes.Add(permissao);
-            await _context.SaveChangesAsync();
-            return permissao;
-        }
 
         public async Task Update(Permissao permissao)
         {

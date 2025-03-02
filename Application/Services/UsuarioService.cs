@@ -2,22 +2,42 @@
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
+using Infrastructure.Data.Persistence;
 
 namespace Application.Services
 {
     public class UsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly AppDbContext _context;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, AppDbContext context)
         {
             _usuarioRepository = usuarioRepository;
+            _context = context;
         }
 
         public async Task<string> AddUsuario(AddUsuarioDto novoUsuario)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                var novaCredencial = new Credencial()
+                {
+                    NomeUsuario = novoUsuario.Usuario,
+                    Senha = novoUsuario.Senha
+                };
+                _context.Credenciais.Add(novaCredencial);
+                await _context.SaveChangesAsync();
+
+                var novoContato = new Contato()
+                {
+                    Telefone = novoUsuario.Telefone,
+                    Email = novoUsuario.Email
+                };
+                _context.Contatos.Add(novoContato);
+                await _context.SaveChangesAsync();
+
                 var usuario = new Usuario
                 {
                     NomeCompleto = novoUsuario.NomeCompleto,
@@ -25,22 +45,27 @@ namespace Application.Services
                     Rg = novoUsuario.Rg,
                     CargoFuncao = novoUsuario.CargoFuncao,
                     EntidadeResponsavel = novoUsuario.EntidadeResponsavel,
-                    CredencialId = novoUsuario.CredencialId,
-                    ContatoId = novoUsuario.ContatoId,
+                    CredencialId = novaCredencial.Id,
+                    ContatoId = novoContato.Id,
                     PermissaoId = novoUsuario.PermissaoId,
                     UsuarioConcessaoId = novoUsuario.UsuarioConcessaoId,
                     RegiaoResponsavel = novoUsuario.RegiaoResponsavel,
                     CategoriaResponsavel = novoUsuario.CategoriaResponsavel
                 };
 
-                await _usuarioRepository.Add(usuario);
-                return "Usuário adicionado com sucesso.";
+                _context.Usuarios.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+                return $"Usuário {novoUsuario.Usuario} adicionado com sucesso.";
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(); 
                 return $"Erro ao adicionar usuário: {ex.Message}";
             }
         }
+
 
         public async Task<string> UpdateUsuario(string cpf, UpdateUsuarioDto dadosAtualizados)
         {

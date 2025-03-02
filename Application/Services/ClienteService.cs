@@ -2,25 +2,57 @@
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
+using Infrastructure.Data.Persistence;
 
 namespace Domain.Services
 {
     public class ClienteService
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly AppDbContext _context;
 
-        public ClienteService(IClienteRepository clienteRepository)
+        public ClienteService(IClienteRepository clienteRepository, AppDbContext context)
         {
             _clienteRepository = clienteRepository;
+            _context = context;
         }
 
         public async Task<string> AddCliente(AddClienteDto novoCliente)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                var novaCredencial = new Credencial()
+                {
+                    NomeUsuario = novoCliente.NomeUsuario,
+                    Senha = novoCliente.Senha
+                };
+                _context.Credenciais.Add(novaCredencial);
+                await _context.SaveChangesAsync();
+
+                var novoEndereco = new Endereco()
+                {
+                    Cep = novoCliente.Cep,
+                    Descricao = novoCliente.Endereco,
+                    Cidade = novoCliente.Cidade,
+                    Estado = novoCliente.Estado,
+                    Pais = novoCliente.Pais,
+                    Numero = novoCliente.Numero
+                };
+                _context.Enderecos.Add(novoEndereco);
+                await _context.SaveChangesAsync();
+
+                var novoContato = new Contato()
+                {
+                    Telefone = novoCliente.Telefone,
+                    Email = novoCliente.Email
+                };
+                _context.Contatos.Add(novoContato);
+                await _context.SaveChangesAsync();
+
                 var cliente = new Cliente
                 {
-                    CredencialId = novoCliente.CredencialId,
+                    CredencialId = novaCredencial.Id,
                     Rg = novoCliente.Rg,
                     OrgaoEmissor = novoCliente.OrgaoEmissor,
                     Cpf = novoCliente.Cpf,
@@ -28,17 +60,19 @@ namespace Domain.Services
                     NomeCompleto = novoCliente.NomeCompleto,
                     NomeFantasia = novoCliente.NomeFantasia,
                     RazaoSocial = novoCliente.RazaoSocial,
-                    RepresentanteLegalId = novoCliente.RepresentanteLegalId,
-                    EnderecoId = novoCliente.EnderecoId,
-                    ContatoId = novoCliente.ContatoId,
+                    EnderecoId = novoEndereco.Id,
+                    ContatoId = novoContato.Id,
                     Certidao = novoCliente.Certidao
                 };
+                _context.Clientes.Add(cliente);
+                await _context.SaveChangesAsync();
 
-                await _clienteRepository.Add(cliente);
-                return "Cliente adicionado com sucesso.";
+                await transaction.CommitAsync();
+                return $"Cliente com usuario:{novoCliente.NomeUsuario} foi adicionado com sucesso.";
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return $"Erro ao adicionar cliente: {ex.Message}";
             }
         }

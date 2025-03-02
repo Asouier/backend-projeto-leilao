@@ -20,13 +20,6 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<RepresentanteLegal> AddAndReturn(RepresentanteLegal representanteLegal)
-        {
-            await _context.RepresentantesLegais.AddAsync(representanteLegal);
-            await _context.SaveChangesAsync();
-            return representanteLegal;
-        }
-
         public async Task Update(RepresentanteLegal representanteLegal)
         {
             _context.RepresentantesLegais.Update(representanteLegal);

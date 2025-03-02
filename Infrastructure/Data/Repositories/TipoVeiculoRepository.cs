@@ -20,13 +20,6 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<TipoVeiculo> AddAndReturn(TipoVeiculo tipoVeiculo)
-        {
-            await _context.TiposVeiculo.AddAsync(tipoVeiculo);
-            await _context.SaveChangesAsync();
-            return tipoVeiculo;
-        }
-
         public async Task Update(TipoVeiculo tipoVeiculo)
         {
             _context.TiposVeiculo.Update(tipoVeiculo);

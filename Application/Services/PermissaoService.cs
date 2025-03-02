@@ -18,9 +18,9 @@ namespace Domain.Services
             try
             {
                 var permissao = Permissao.Create(novaPermissao);
-                Permissao cadastrada = await _permissaoRepository.AddAndReturn(permissao);
+                await _permissaoRepository.Add(permissao);
 
-                return $"Novo nivel de permissão adicionado com sucesso. n°{cadastrada.Id}, descrição:{cadastrada.Descricao}";
+                return "Novo nivel de permissão adicionado com sucesso.";
             }
             catch (Exception ex)
             {

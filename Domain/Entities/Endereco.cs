@@ -3,12 +3,12 @@
     public class Endereco
     {
         public int Id { get; set; }
-        public string Cep { get; set; } = string.Empty;
-        public string Descricao { get; set; } = string.Empty;
-        public string Cidade { get; set; } = string.Empty;
-        public string Estado { get; set; } = string.Empty;
-        public string Pais { get; set; } = string.Empty;
-        public string Numero { get; set; } = string.Empty;
+        public required string Cep { get; set; }
+        public required string Descricao { get; set; }
+        public required string Cidade { get; set; }
+        public required string Estado { get; set; }
+        public required string Pais { get; set; }
+        public required string Numero { get; set; }
         public string? Complemento { get; set; }
 
         public Endereco() { }

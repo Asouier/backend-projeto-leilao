@@ -20,13 +20,6 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Contato> AddAndReturn(Contato contato)
-        {
-            await _context.Contatos.AddAsync(contato);
-            await _context.SaveChangesAsync();
-            return contato;
-        }
-
         public async Task Update(Contato contato)
         {
             _context.Contatos.Update(contato);

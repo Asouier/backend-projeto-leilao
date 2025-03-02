@@ -21,13 +21,6 @@ namespace Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Credencial> AddAndReturn(Credencial credencial)
-        {
-            await _context.Credenciais.AddAsync(credencial);
-            await _context.SaveChangesAsync();
-            return credencial;
-        }
-
         public async Task Update(Credencial credencial)
         {
             _context.Credenciais.Update(credencial);
