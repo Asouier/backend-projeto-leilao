@@ -4,15 +4,19 @@ using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class CredencialService: ICredencialService
     {
         private readonly ICredencialRepository _credencialRepository;
+        private readonly IClienteRepository _clienteRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public CredencialService(ICredencialRepository credencialRepository)
+        public CredencialService(ICredencialRepository credencialRepository, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository)
         {
             _credencialRepository = credencialRepository;
+            _clienteRepository = clienteRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         public async Task<string> AddCredencial(AddCredencialDto novaCredencial)
@@ -29,18 +33,34 @@ namespace Domain.Services
                 return $"Erro ao adicionar credencial: {ex.Message}";
             }
         }
-        public async Task<bool> GetAccess(Credencial credencial)
+        public async Task<ResponseLoginDto?> GetAccess(Credencial credencial)
         {
             try
             {
                 var acesso = await _credencialRepository.GetByNomeUsuario(credencial.NomeUsuario);
-                if (acesso == null) return false;
-                if (credencial.Senha != acesso.Senha) return false;
-                else return true;
+                if (acesso == null || credencial.Senha != acesso.Senha)
+                    return null;
+
+                var contaUsuario = await _usuarioRepository.GetByCredencialId(acesso.Id);
+                var contaCliente = await _clienteRepository.GetByCredencialId(acesso.Id);
+
+                return new ResponseLoginDto
+                {
+                    NomeUsuario = acesso.NomeUsuario,
+                    NomeCompleto = contaCliente?.NomeCompleto,
+                    NomeFantasia = contaCliente?.NomeFantasia,
+                    Cidade = contaCliente?.Endereco.Cidade,
+                    Email = contaUsuario?.Contato.Email ?? contaCliente?.Contato.Email,
+                    CargoFuncao = contaUsuario?.CargoFuncao,
+                    PermissaoId = contaUsuario?.PermissaoId,
+                    RegiaoResponsavel = contaUsuario?.RegiaoResponsavel,
+                    CategoriaResponsavel = contaUsuario?.CategoriaResponsavel
+                };
+
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
         public async Task<string> UpdateCredencial(UpdateCredencialDto novosDados)

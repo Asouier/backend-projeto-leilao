@@ -1,7 +1,8 @@
 ﻿using Application.DTOs.Clientes;
 using Domain.Entities;
-using Domain.Services;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using Application.IServices;
 
 namespace Api.Controllers
 {
@@ -9,9 +10,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class ClienteController : ControllerBase
     {
-        private readonly ClienteService _clienteService;
+        private readonly IClienteService _clienteService;
 
-        public ClienteController(ClienteService clienteService)
+        public ClienteController(IClienteService clienteService)
         {
             _clienteService = clienteService;
         }

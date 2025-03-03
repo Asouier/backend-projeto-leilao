@@ -1,6 +1,4 @@
-using Application.IServices;
-using Application.Services;
-using Domain.Services;
+using Application;
 using Infrastructure.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -14,6 +12,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -46,21 +46,6 @@ builder.Services.AddSwaggerGen(c =>
 
 
 builder.Services.AddControllers();
-
-builder.Services.AddScoped<IEnderecoService, EnderecoService>();
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IContatoService, ContatoService>();
-builder.Services.AddScoped<ICredencialService, CredencialService>();
-builder.Services.AddScoped<IEnderecoService, EnderecoService>();
-builder.Services.AddScoped<IPermissaoService, PermissaoService>();
-builder.Services.AddScoped<IRepresentanteLegalService, RepresentanteLegalService>();
-builder.Services.AddScoped<IStatusPropriedadeService, StatusPropriedadeService>();
-builder.Services.AddScoped<IStatusLeilaoService, StatusLeilaoService>();
-builder.Services.AddScoped<ITipoImovelService, TipoImovelService>();
-builder.Services.AddScoped<ITipoVeiculoService, TipoVeiculoService>();
-builder.Services.AddScoped<ITipoLeilaoService, TipoLeilaoService>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-
 
 var app = builder.Build();
 

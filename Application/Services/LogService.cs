@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class LogService
     {

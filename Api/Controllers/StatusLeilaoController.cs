@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.StatusLeiloes;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class StatusLeilaoController : ControllerBase
     {
-        private readonly StatusLeilaoService _statusLeilaoService;
+        private readonly IStatusLeilaoService _statusLeilaoService;
 
-        public StatusLeilaoController(StatusLeilaoService statusLeilaoService)
+        public StatusLeilaoController(IStatusLeilaoService statusLeilaoService)
         {
             _statusLeilaoService = statusLeilaoService;
         }

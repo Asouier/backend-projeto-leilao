@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Imoveis;
 using Application.Models.Imoveis;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,9 +9,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class ImovelController : ControllerBase
     {
-        private readonly ImovelService _imovelService;
+        private readonly IImovelService _imovelService;
 
-        public ImovelController(ImovelService imovelService)
+        public ImovelController(IImovelService imovelService)
         {
             _imovelService = imovelService;
         }

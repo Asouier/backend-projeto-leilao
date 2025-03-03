@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.TipoImoveis;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class TipoImovelController : ControllerBase
     {
-        private readonly TipoImovelService _tipoImovelService;
+        private readonly ITipoImovelService _tipoImovelService;
 
-        public TipoImovelController(TipoImovelService tipoImovelService)
+        public TipoImovelController(ITipoImovelService tipoImovelService)
         {
             _tipoImovelService = tipoImovelService;
         }

@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Veiculos;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class VeiculoController : ControllerBase
     {
-        private readonly VeiculoService _veiculoService;
+        private readonly IVeiculoService _veiculoService;
 
-        public VeiculoController(VeiculoService veiculoService)
+        public VeiculoController(IVeiculoService veiculoService)
         {
             _veiculoService = veiculoService;
         }

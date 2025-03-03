@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Contatos;
 using Application.Models.Contatos;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,9 +9,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class ContatoController : ControllerBase
     {
-        private readonly ContatoService _contatoService;
+        private readonly IContatoService _contatoService;
 
-        public ContatoController(ContatoService contatoService)
+        public ContatoController(IContatoService contatoService)
         {
             _contatoService = contatoService;
         }

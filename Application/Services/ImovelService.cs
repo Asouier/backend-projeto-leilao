@@ -1,13 +1,14 @@
 ﻿using Application.DTOs.Imoveis;
+using Application.IServices;
 using Application.Models.Imoveis;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 using Infrastructure.Data.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
-    public class ImovelService
+    public class ImovelService: IImovelService
     {
         private readonly IImovelRepository _imovelRepository;
         private readonly ILeilaoRepository _leilaoRepository;

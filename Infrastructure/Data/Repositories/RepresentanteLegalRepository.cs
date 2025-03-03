@@ -1,7 +1,7 @@
-﻿using Infrastructure.Data.Repositores;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Data.Persistence;
 
 namespace Infrastructure.Data.Repositories
 {

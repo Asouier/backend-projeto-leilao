@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Usuarios;
-using Application.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Helpers;
 using Domain.Entities;
@@ -10,9 +10,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private readonly UsuarioService _usuarioService;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(UsuarioService usuarioService)
+        public UsuarioController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
         }
@@ -55,9 +55,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("registro/{credencialId}")]
-        public async Task<IActionResult> GetClienteByCredencialId(int credencialId)
+        public async Task<IActionResult> GetUsuarioByCredencialId(int credencialId)
         {
-            var usuario = await _usuarioService.GetClienteByCredencialId(credencialId);
+            var usuario = await _usuarioService.GetUsuarioByCredencialId(credencialId);
             return Ok(usuario);
         }
     }

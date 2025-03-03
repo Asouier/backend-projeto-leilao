@@ -1,12 +1,12 @@
 ﻿using Application.DTOs.Veiculos;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
-using Infrastructure.Data.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
-    public class VeiculoService
+    public class VeiculoService: IVeiculoService
     {
         private readonly IVeiculoRepository _veiculoRepository;
         private readonly ILeilaoRepository _leilaoRepository;

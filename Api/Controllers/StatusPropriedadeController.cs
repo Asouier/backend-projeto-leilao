@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.StatusPropriedades;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class StatusPropriedadeController : ControllerBase
     {
-        private readonly StatusPropriedadeService _statusPropriedadeService;
+        private readonly IStatusPropriedadeService _statusPropriedadeService;
 
-        public StatusPropriedadeController(StatusPropriedadeService statusPropriedadeService)
+        public StatusPropriedadeController(IStatusPropriedadeService statusPropriedadeService)
         {
             _statusPropriedadeService = statusPropriedadeService;
         }

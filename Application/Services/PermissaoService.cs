@@ -3,7 +3,7 @@ using Application.IServices;
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class PermissaoService: IPermissaoService
     {

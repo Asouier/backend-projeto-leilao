@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Leiloes;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -9,9 +9,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class LeilaoController : ControllerBase
     {
-        private readonly LeilaoService _leilaoService;
+        private readonly ILeilaoService _leilaoService;
 
-        public LeilaoController(LeilaoService leilaoService)
+        public LeilaoController(ILeilaoService leilaoService)
         {
             _leilaoService = leilaoService;
         }

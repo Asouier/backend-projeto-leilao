@@ -6,7 +6,7 @@ namespace Application.IServices
     public interface ICredencialService
     {
         Task<Credencial?> GetCredencialById(int id);
-        Task<bool> GetAccess(Credencial credencial);
+        Task<ResponseLoginDto?> GetAccess(Credencial credencial);
         Task<Credencial?> GetCredencialByNomeUsuario(string nomeUsuario);
         Task<string> AddCredencial(AddCredencialDto credencial);
         Task<string> UpdateCredencial(UpdateCredencialDto credencial);

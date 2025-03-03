@@ -7,7 +7,7 @@ namespace Application.IServices
     {
         Task<Cliente?> GetClienteById(int id);
         Task<List<Cliente>> GetAllClientes();
-        Task<List<Cliente>> GetClienteByCredencialId(int credencialId);
+        Task<Cliente?> GetClienteByCredencialId(int credencialId);
         Task<List<Cliente>?> GetClientesByNome(string nome);
         Task<List<Cliente>?> GetClientesByCpf(string cpf);
         Task<List<Cliente>?> GetClientesByCnpj(string cnpj);

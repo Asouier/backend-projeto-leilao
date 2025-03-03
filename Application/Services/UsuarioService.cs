@@ -4,7 +4,6 @@ using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 using Infrastructure.Data.Persistence;
-using Infrastructure.Data.Repositories;
 
 namespace Application.Services
 {
@@ -118,7 +117,7 @@ namespace Application.Services
         {
             return await _usuarioRepository.GetByCpf(cpf);
         }
-        public async Task<Usuario?> GetClienteByCredencialId(int credencialId)
+        public async Task<Usuario?> GetUsuarioByCredencialId(int credencialId)
         {
             return await _usuarioRepository.GetByCredencialId(credencialId);
         }

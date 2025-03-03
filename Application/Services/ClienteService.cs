@@ -5,7 +5,7 @@ using Domain.Extensions;
 using Domain.Repositories;
 using Infrastructure.Data.Persistence;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class ClienteService: IClienteService
     {

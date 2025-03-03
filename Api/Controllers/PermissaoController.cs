@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Permissoes;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class PermissaoController : ControllerBase
     {
-        private readonly PermissaoService _permissaoService;
+        private readonly IPermissaoService _permissaoService;
 
-        public PermissaoController(PermissaoService permissaoService)
+        public PermissaoController(IPermissaoService permissaoService)
         {
             _permissaoService = permissaoService;
         }

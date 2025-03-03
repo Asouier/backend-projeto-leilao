@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.RepresentantesLegais;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class RepresentanteLegalController : ControllerBase
     {
-        private readonly RepresentanteLegalService _representanteLegalService;
+        private readonly IRepresentanteLegalService _representanteLegalService;
 
-        public RepresentanteLegalController(RepresentanteLegalService representanteLegalService)
+        public RepresentanteLegalController(IRepresentanteLegalService representanteLegalService)
         {
             _representanteLegalService = representanteLegalService;
         }

@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.Leiloes;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
-    public class LeilaoService
+    public class LeilaoService: ILeilaoService
     {
         private readonly ILeilaoRepository _leilaoRepository;
 

@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Credenciais;
 using Domain.Entities;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,18 +9,18 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class CredencialController : ControllerBase
     {
-        private readonly CredencialService _credencialService;
+        private readonly ICredencialService _credencialService;
 
-        public CredencialController(CredencialService credencialService)
+        public CredencialController(ICredencialService credencialService)
         {
             _credencialService = credencialService;
         }
 
         [HttpGet("acesso")]
-        public async Task<bool> GetAccess(Credencial credencial)
+        public async Task<IActionResult> GetAccess(Credencial credencial)
         {
             var resultado = await _credencialService.GetAccess(credencial);
-            return resultado;
+            return Ok(resultado);
         }
 
         [HttpPost("adicionar")]

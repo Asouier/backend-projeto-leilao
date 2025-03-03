@@ -5,7 +5,7 @@ using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class ContatoService: IContatoService
     {

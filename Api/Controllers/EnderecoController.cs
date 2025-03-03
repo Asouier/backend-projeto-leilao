@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Enderecos;
-using Domain.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -8,9 +8,9 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class EnderecoController : ControllerBase
     {
-        private readonly EnderecoService _enderecoService;
+        private readonly IEnderecoService _enderecoService;
 
-        public EnderecoController(EnderecoService enderecoService)
+        public EnderecoController(IEnderecoService enderecoService)
         {
             _enderecoService = enderecoService;
         }
