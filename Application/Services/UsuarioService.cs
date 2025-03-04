@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -20,51 +21,61 @@ namespace Application.Services
 
         public async Task<string> AddUsuario(AddUsuarioDto novoUsuario)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            var executionStrategy = _context.Database.CreateExecutionStrategy();
+
+            return await executionStrategy.ExecuteAsync(async () =>
             {
-                var novaCredencial = new Credencial()
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    NomeUsuario = novoUsuario.Usuario,
-                    Senha = novoUsuario.Senha
-                };
-                _context.Credenciais.Add(novaCredencial);
-                await _context.SaveChangesAsync();
+                    var novaCredencial = new Credencial()
+                    {
+                        NomeUsuario = novoUsuario.Usuario,
+                        Senha = novoUsuario.Senha
+                    };
+                    _context.Credenciais.Add(novaCredencial);
+                    await _context.SaveChangesAsync();
+                    Console.WriteLine("Credencial salva com ID: " + novaCredencial.Id);
 
-                var novoContato = new Contato()
+                    var novoContato = new Contato()
+                    {
+                        Telefone = novoUsuario.Telefone,
+                        Email = novoUsuario.Email
+                    };
+                    _context.Contatos.Add(novoContato);
+                    await _context.SaveChangesAsync();
+                    Console.WriteLine("Contato salvo com ID: " + novoContato.Id);
+
+                    var usuario = new Usuario
+                    {
+                        NomeCompleto = novoUsuario.NomeCompleto,
+                        Cpf = novoUsuario.Cpf,
+                        Rg = novoUsuario.Rg,
+                        CargoFuncao = novoUsuario.CargoFuncao,
+                        EntidadeResponsavel = novoUsuario.EntidadeResponsavel,
+                        CredencialId = novaCredencial.Id,
+                        ContatoId = novoContato.Id,
+                        PermissaoId = novoUsuario.PermissaoId,
+                        UsuarioConcessaoId = novoUsuario.UsuarioConcessaoId,
+                        RegiaoResponsavel = novoUsuario.RegiaoResponsavel,
+                        CategoriaResponsavel = novoUsuario.CategoriaResponsavel
+                    };
+                    _context.Usuarios.Add(usuario);
+                    await _context.SaveChangesAsync();
+                    Console.WriteLine("Usuário salvo com ID: " + usuario.Id);
+
+                    await transaction.CommitAsync();
+                    Console.WriteLine("Transação confirmada.");
+
+                    return $"Usuário {novoUsuario.Usuario} adicionado com sucesso.";
+                }
+                catch (Exception ex)
                 {
-                    Telefone = novoUsuario.Telefone,
-                    Email = novoUsuario.Email
-                };
-                _context.Contatos.Add(novoContato);
-                await _context.SaveChangesAsync();
-
-                var usuario = new Usuario
-                {
-                    NomeCompleto = novoUsuario.NomeCompleto,
-                    Cpf = novoUsuario.Cpf,
-                    Rg = novoUsuario.Rg,
-                    CargoFuncao = novoUsuario.CargoFuncao,
-                    EntidadeResponsavel = novoUsuario.EntidadeResponsavel,
-                    CredencialId = novaCredencial.Id,
-                    ContatoId = novoContato.Id,
-                    PermissaoId = novoUsuario.PermissaoId,
-                    UsuarioConcessaoId = novoUsuario.UsuarioConcessaoId,
-                    RegiaoResponsavel = novoUsuario.RegiaoResponsavel,
-                    CategoriaResponsavel = novoUsuario.CategoriaResponsavel
-                };
-
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-                return $"Usuário {novoUsuario.Usuario} adicionado com sucesso.";
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync(); 
-                return $"Erro ao adicionar usuário: {ex.Message}";
-            }
+                    await transaction.RollbackAsync();
+                    Console.WriteLine("Erro ao adicionar usuário: " + ex.Message);
+                    return $"Erro ao adicionar usuário: {ex.Message}";
+                }
+            });
         }
 
 

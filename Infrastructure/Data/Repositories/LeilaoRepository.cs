@@ -14,10 +14,11 @@ namespace Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task Add(Leilao leilao)
+        public async Task<int> Add(Leilao leilao)
         {
             await _context.Leiloes.AddAsync(leilao);
             await _context.SaveChangesAsync();
+            return leilao.Id;
         }
 
         public async Task Update(Leilao leilao)

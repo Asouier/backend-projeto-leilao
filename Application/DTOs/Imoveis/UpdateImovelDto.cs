@@ -13,5 +13,12 @@
         public DateTime DataRecolhimento { get; set; }
         public string? MotivoRecolhimento { get; set; }
         public int? ClienteArrematanteId { get; set; }
+        public string Cep { get; set; } = string.Empty;
+        public string Endereco { get; set; } = string.Empty;
+        public string Cidade { get; set; } = string.Empty;
+        public string Estado { get; set; } = string.Empty;
+        public string Pais { get; set; } = string.Empty;
+        public string Numero { get; set; } = string.Empty;
+        public string Complemento { get; set; } = string.Empty;
     }
 }

@@ -4,7 +4,8 @@ using Application.Models.Imoveis;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
-using Infrastructure.Data.Repositories;
+using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -12,38 +13,97 @@ namespace Application.Services
     {
         private readonly IImovelRepository _imovelRepository;
         private readonly ILeilaoRepository _leilaoRepository;
+        private readonly AppDbContext _context;
 
-        public ImovelService(IImovelRepository imovelRepository, ILeilaoRepository leilaoRepository)
+        public ImovelService(IImovelRepository imovelRepository, ILeilaoRepository leilaoRepository, AppDbContext context)
         {
             _imovelRepository = imovelRepository;
             _leilaoRepository = leilaoRepository;
+            _context = context;
         }
 
         public async Task<string> AddImovel(AddImovelDto novoImovel)
         {
-            try
-            {
-                var imovel = new Imovel
-                {
-                    TipoImovelId = novoImovel.TipoImovelId,
-                    LeilaoId = novoImovel.LeilaoId,
-                    EnderecoId = novoImovel.EnderecoId,
-                    AreaTotal = novoImovel.AreaTotal,
-                    QuantidadeComodos = novoImovel.QuantidadeComodos,
-                    ValorMinimo = novoImovel.ValorMinimo,
-                    StatusPropriedadeId = novoImovel.StatusPropriedadeId,
-                    UsuarioCadastroId = novoImovel.UsuarioCadastroId,
-                    DataRecolhimento = novoImovel.DataRecolhimento,
-                    MotivoRecolhimento = novoImovel.MotivoRecolhimento
-                };
+            var executionStrategy = _context.Database.CreateExecutionStrategy();
 
-                await _imovelRepository.Add(imovel);
-                return "Imóvel adicionado com sucesso.";
-            }
-            catch (Exception ex)
+            return await executionStrategy.ExecuteAsync(async () =>
             {
-                return $"Erro ao adicionar imóvel: {ex.Message}";
-            }
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    if (novoImovel == null)
+                    {
+                        throw new ArgumentException("Dados do imóvel inválidos.");
+                    }
+
+                    if (novoImovel.TipoImovelId <= 0)
+                    {
+                        throw new ArgumentException("Tipo de imóvel inválido.");
+                    }
+
+                    if (novoImovel.LeilaoId <= 0)
+                    {
+                        throw new ArgumentException("Leilão inválido.");
+                    }
+
+                    if (novoImovel.UsuarioCadastroId <= 0)
+                    {
+                        throw new ArgumentException("Usuário de cadastro inválido.");
+                    }
+
+                    if (novoImovel.AreaTotal <= 0)
+                    {
+                        throw new ArgumentException("Área total inválida.");
+                    }
+
+                    if (novoImovel.ValorMinimo <= 0)
+                    {
+                        throw new ArgumentException("Valor mínimo inválido.");
+                    }
+
+                    if (string.IsNullOrEmpty(novoImovel.MotivoRecolhimento))
+                    {
+                        throw new ArgumentException("Motivo de recolhimento inválido.");
+                    }
+
+                    var novoEndereco = new Endereco()
+                    {
+                        Cep = novoImovel.Cep,
+                        Descricao = novoImovel.Endereco,
+                        Cidade = novoImovel.Cidade,
+                        Estado = novoImovel.Estado,
+                        Pais = novoImovel.Pais,
+                        Numero = novoImovel.Numero
+                    };
+                    _context.Enderecos.Add(novoEndereco);
+                    await _context.SaveChangesAsync();
+
+                    var imovel = new Imovel
+                    {
+                        TipoImovelId = novoImovel.TipoImovelId,
+                        LeilaoId = novoImovel.LeilaoId,
+                        EnderecoId = novoEndereco.Id,
+                        AreaTotal = novoImovel.AreaTotal,
+                        QuantidadeComodos = novoImovel.QuantidadeComodos,
+                        ValorMinimo = novoImovel.ValorMinimo,
+                        StatusPropriedadeId = novoImovel.StatusPropriedadeId,
+                        UsuarioCadastroId = novoImovel.UsuarioCadastroId,
+                        DataRecolhimento = novoImovel.DataRecolhimento,
+                        MotivoRecolhimento = novoImovel.MotivoRecolhimento
+                    };
+
+                    await _imovelRepository.Add(imovel);
+
+                    await transaction.CommitAsync();
+                    return "Imóvel adicionado com sucesso.";
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Nenhuma exceção interna.";
+                    return $"Erro ao adicionar leilão: {ex.Message}; Exceção interna: {innerExceptionMessage}";
+                }
+            });
         }
 
         public async Task<string> UpdateImovel(UpdateImovelDto novosDados)

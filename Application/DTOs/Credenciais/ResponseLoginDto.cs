@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.DTOs.Credenciais
+﻿namespace Application.DTOs.Credenciais
 {
     public class ResponseLoginDto
     {
+        public int? Id { get; set; }
         public string NomeUsuario { get; set; } = string.Empty;
         public string? NomeCompleto { get; set; }
         public string? NomeFantasia { get; set; }

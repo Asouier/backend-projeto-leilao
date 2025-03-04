@@ -33,7 +33,7 @@ namespace Application.Services
                 return $"Erro ao adicionar credencial: {ex.Message}";
             }
         }
-        public async Task<ResponseLoginDto?> GetAccess(Credencial credencial)
+        public async Task<ResponseLoginDto?> GetAccess(AddCredencialDto credencial)
         {
             try
             {
@@ -42,24 +42,40 @@ namespace Application.Services
                     return null;
 
                 var contaUsuario = await _usuarioRepository.GetByCredencialId(acesso.Id);
-                var contaCliente = await _clienteRepository.GetByCredencialId(acesso.Id);
-
-                return new ResponseLoginDto
+                var contaCliente = new Cliente();
+                if (contaUsuario == null)
                 {
+                    contaCliente = await _clienteRepository.GetByCredencialId(acesso.Id);
+                }
+
+                var response = new ResponseLoginDto
+                {
+                    Id = contaUsuario?.Id ?? contaCliente?.Id,
                     NomeUsuario = acesso.NomeUsuario,
-                    NomeCompleto = contaCliente?.NomeCompleto,
-                    NomeFantasia = contaCliente?.NomeFantasia,
-                    Cidade = contaCliente?.Endereco.Cidade,
-                    Email = contaUsuario?.Contato.Email ?? contaCliente?.Contato.Email,
-                    CargoFuncao = contaUsuario?.CargoFuncao,
-                    PermissaoId = contaUsuario?.PermissaoId,
-                    RegiaoResponsavel = contaUsuario?.RegiaoResponsavel,
-                    CategoriaResponsavel = contaUsuario?.CategoriaResponsavel
+                    Email = contaUsuario?.Contato?.Email ?? contaCliente?.Contato?.Email
                 };
 
+                if (contaUsuario != null)
+                {
+                    response.NomeCompleto = contaUsuario.NomeCompleto;
+                    response.CargoFuncao = contaUsuario.CargoFuncao;
+                    response.PermissaoId = contaUsuario.PermissaoId;
+                    response.RegiaoResponsavel = contaUsuario.RegiaoResponsavel;
+                    response.CategoriaResponsavel = contaUsuario.CategoriaResponsavel;
+                }
+
+                if (contaCliente != null)
+                {
+                    response.NomeCompleto = contaCliente.NomeCompleto;
+                    response.NomeFantasia = contaCliente.NomeFantasia;
+                    response.Cidade = contaCliente.Endereco?.Cidade;
+                }
+
+                return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("Erro ao realizar login: " + ex.Message);
                 return null;
             }
         }

@@ -65,21 +65,26 @@ namespace Infrastructure.Data.Persistence.Configurations
                    .HasMaxLength(100)
                    .HasColumnName("categoria_responsavel");
 
+            // Relacionamentos
             builder.HasOne(u => u.Credencial)
                    .WithMany()
-                   .HasForeignKey(u => u.CredencialId);
+                   .HasForeignKey(u => u.CredencialId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(u => u.Contato)
                    .WithMany()
-                   .HasForeignKey(u => u.ContatoId);
+                   .HasForeignKey(u => u.ContatoId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(u => u.Permissao)
                    .WithMany()
-                   .HasForeignKey(u => u.PermissaoId);
+                   .HasForeignKey(u => u.PermissaoId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(u => u.UsuarioConcessao)
                    .WithMany()
-                   .HasForeignKey(u => u.UsuarioConcessaoId);
+                   .HasForeignKey(u => u.UsuarioConcessaoId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -3,42 +3,98 @@ using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
+using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
     public class LeilaoService: ILeilaoService
     {
         private readonly ILeilaoRepository _leilaoRepository;
+        private readonly AppDbContext _context;
 
-        public LeilaoService(ILeilaoRepository leilaoRepository)
+        public LeilaoService(ILeilaoRepository leilaoRepository, AppDbContext context)
         {
             _leilaoRepository = leilaoRepository;
+            _context = context;
         }
 
         public async Task<string> AddLeilao(AddLeilaoDto novoLeilao)
         {
-            try
-            {
-                var leilao = new Leilao
-                {
-                    TipoLeilaoId = novoLeilao.TipoLeilaoId,
-                    StatusId = novoLeilao.StatusId,
-                    EnderecoId = novoLeilao.EnderecoId,
-                    DataHoraInicio = novoLeilao.DataHoraInicio,
-                    DataHoraFim = novoLeilao.DataHoraFim,
-                    UrlLeilao = novoLeilao.UrlLeilao,
-                    UsuarioCadastroId = novoLeilao.UsuarioCadastroId,
-                    UsuarioAprovacaoId = novoLeilao.UsuarioAprovacaoId,
-                    TaxaAdministrativa = novoLeilao.TaxaAdministrativa
-                };
+            var executionStrategy = _context.Database.CreateExecutionStrategy();
 
-                await _leilaoRepository.Add(leilao);
-                return "Leilão adicionado com sucesso.";
-            }
-            catch (Exception ex)
+            return await executionStrategy.ExecuteAsync(async () =>
             {
-                return $"Erro ao adicionar leilão: {ex.Message}";
-            }
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    if (novoLeilao == null)
+                    {
+                        throw new ArgumentException("Dados do leilão inválidos.");
+                    }
+
+                    if (novoLeilao.TipoLeilaoId <= 0)
+                    {
+                        throw new ArgumentException("Tipo de leilão inválido.");
+                    }
+
+                    if (novoLeilao.StatusId <= 0)
+                    {
+                        throw new ArgumentException("Status inválido.");
+                    }
+
+                    if (novoLeilao.UsuarioCadastroId <= 0)
+                    {
+                        throw new ArgumentException("Usuário de cadastro inválido.");
+                    }
+
+                    if (novoLeilao.DataHoraInicio >= novoLeilao.DataHoraFim)
+                    {
+                        throw new ArgumentException("A data de início deve ser anterior à data de término.");
+                    }
+
+                    if (novoLeilao.DataHoraInicio < DateTime.Now || novoLeilao.DataHoraFim < DateTime.Now)
+                    {
+                        throw new ArgumentException("As datas devem ser futuras.");
+                    }
+
+                    var novoEndereco = new Endereco()
+                    {
+                        Cep = novoLeilao.Cep,
+                        Descricao = novoLeilao.Endereco,
+                        Cidade = novoLeilao.Cidade,
+                        Estado = novoLeilao.Estado,
+                        Pais = novoLeilao.Pais,
+                        Numero = novoLeilao.Numero
+                    };
+                    _context.Enderecos.Add(novoEndereco);
+                    await _context.SaveChangesAsync();
+
+                    var leilao = new Leilao
+                    {
+                        TipoLeilaoId = novoLeilao.TipoLeilaoId,
+                        StatusId = novoLeilao.StatusId,
+                        EnderecoId = novoEndereco.Id,
+                        DataHoraInicio = novoLeilao.DataHoraInicio,
+                        DataHoraFim = novoLeilao.DataHoraFim,
+                        UrlLeilao = novoLeilao.UrlLeilao,
+                        UsuarioCadastroId = novoLeilao.UsuarioCadastroId,
+                        UsuarioAprovacaoId = novoLeilao.UsuarioAprovacaoId,
+                        TaxaAdministrativa = novoLeilao.TaxaAdministrativa
+                    };
+
+                    int novoId = await _leilaoRepository.Add(leilao);
+
+                    await transaction.CommitAsync();
+                    return $"#{novoId}";
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Nenhuma exceção interna.";
+                    return $"Erro ao adicionar leilão: {ex.Message}; Exceção interna: {innerExceptionMessage}";
+                }
+            });
         }
 
         public async Task<string> UpdateLeilao(UpdateLeilaoDto novosDados)

@@ -1,10 +1,12 @@
 ﻿using Application.DTOs.Leiloes;
 using Application.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class LeilaoController : ControllerBase

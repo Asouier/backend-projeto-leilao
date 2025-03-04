@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
 using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -20,62 +21,67 @@ namespace Application.Services
 
         public async Task<string> AddCliente(AddClienteDto novoCliente)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            var executionStrategy = _context.Database.CreateExecutionStrategy();
+
+            return await executionStrategy.ExecuteAsync(async () =>
             {
-                var novaCredencial = new Credencial()
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    NomeUsuario = novoCliente.NomeUsuario,
-                    Senha = novoCliente.Senha
-                };
-                _context.Credenciais.Add(novaCredencial);
-                await _context.SaveChangesAsync();
+                    var novaCredencial = new Credencial()
+                    {
+                        NomeUsuario = novoCliente.NomeUsuario,
+                        Senha = novoCliente.Senha
+                    };
+                    _context.Credenciais.Add(novaCredencial);
+                    await _context.SaveChangesAsync();
 
-                var novoEndereco = new Endereco()
+                    var novoEndereco = new Endereco()
+                    {
+                        Cep = novoCliente.Cep,
+                        Descricao = novoCliente.Endereco,
+                        Cidade = novoCliente.Cidade,
+                        Estado = novoCliente.Estado,
+                        Pais = novoCliente.Pais,
+                        Numero = novoCliente.Numero
+                    };
+                    _context.Enderecos.Add(novoEndereco);
+                    await _context.SaveChangesAsync();
+
+                    var novoContato = new Contato()
+                    {
+                        Telefone = novoCliente.Telefone,
+                        Email = novoCliente.Email
+                    };
+                    _context.Contatos.Add(novoContato);
+                    await _context.SaveChangesAsync();
+
+                    var cliente = new Cliente
+                    {
+                        CredencialId = novaCredencial.Id,
+                        Rg = novoCliente.Rg,
+                        OrgaoEmissor = novoCliente.OrgaoEmissor,
+                        Cpf = novoCliente.Cpf,
+                        Cnpj = novoCliente.Cnpj,
+                        NomeCompleto = novoCliente.NomeCompleto,
+                        NomeFantasia = novoCliente.NomeFantasia,
+                        RazaoSocial = novoCliente.RazaoSocial,
+                        EnderecoId = novoEndereco.Id,
+                        ContatoId = novoContato.Id,
+                        Certidao = novoCliente.Certidao
+                    };
+                    _context.Clientes.Add(cliente);
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                    return $"Cliente com usuario:{novoCliente.NomeUsuario} foi adicionado com sucesso.";
+                }
+                catch (Exception ex)
                 {
-                    Cep = novoCliente.Cep,
-                    Descricao = novoCliente.Endereco,
-                    Cidade = novoCliente.Cidade,
-                    Estado = novoCliente.Estado,
-                    Pais = novoCliente.Pais,
-                    Numero = novoCliente.Numero
-                };
-                _context.Enderecos.Add(novoEndereco);
-                await _context.SaveChangesAsync();
-
-                var novoContato = new Contato()
-                {
-                    Telefone = novoCliente.Telefone,
-                    Email = novoCliente.Email
-                };
-                _context.Contatos.Add(novoContato);
-                await _context.SaveChangesAsync();
-
-                var cliente = new Cliente
-                {
-                    CredencialId = novaCredencial.Id,
-                    Rg = novoCliente.Rg,
-                    OrgaoEmissor = novoCliente.OrgaoEmissor,
-                    Cpf = novoCliente.Cpf,
-                    Cnpj = novoCliente.Cnpj,
-                    NomeCompleto = novoCliente.NomeCompleto,
-                    NomeFantasia = novoCliente.NomeFantasia,
-                    RazaoSocial = novoCliente.RazaoSocial,
-                    EnderecoId = novoEndereco.Id,
-                    ContatoId = novoContato.Id,
-                    Certidao = novoCliente.Certidao
-                };
-                _context.Clientes.Add(cliente);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-                return $"Cliente com usuario:{novoCliente.NomeUsuario} foi adicionado com sucesso.";
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                return $"Erro ao adicionar cliente: {ex.Message}";
-            }
+                    await transaction.RollbackAsync();
+                    return $"Erro ao adicionar cliente: {ex.Message}";
+                }
+            });
         }
 
         public async Task<string> UpdateCliente(UpdateClienteDto novosDados)

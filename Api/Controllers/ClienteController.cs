@@ -3,9 +3,11 @@ using Domain.Entities;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Application.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ClienteController : ControllerBase
@@ -70,13 +72,6 @@ namespace Api.Controllers
         public async Task<IActionResult> GetClientesByCnpj(string cnpj)
         {
             var clientes = await _clienteService.GetClientesByCnpj(cnpj);
-            return Ok(clientes);
-        }
-
-        [HttpGet("registro/{credencialId}")]
-        public async Task<IActionResult> GetClienteByCredencialId(int credencialId)
-        {
-            var clientes = await _clienteService.GetClienteByCredencialId(credencialId);
             return Ok(clientes);
         }
     }

@@ -2,9 +2,11 @@
 using Application.Models.Contatos;
 using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ContatoController : ControllerBase

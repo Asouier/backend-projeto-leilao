@@ -4,7 +4,7 @@ namespace Domain.Repositories
 {
     public interface ILeilaoRepository
     {
-        Task Add(Leilao leilao);
+        Task<int> Add(Leilao leilao);
         Task Update(Leilao leilao);
         Task<Leilao?> GetById(int id);
         Task<List<Leilao>> GetAll();
