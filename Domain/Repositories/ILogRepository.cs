@@ -8,6 +8,7 @@ namespace Domain.Repositories
         Task<List<Log>> GetAll();
         Task<List<Log>> GetByUsuario(int usuarioId);
         Task<List<Log>> GetByEntidade(string entidade);
+        Task<List<Log>> GetByIdLeilaoAndIdEntidade(int leilaoId, int entidadeId);
         Task<List<Log>> GetByAcao(string acao);
     }
 }

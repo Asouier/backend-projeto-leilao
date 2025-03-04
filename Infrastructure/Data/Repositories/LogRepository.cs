@@ -34,7 +34,10 @@ namespace Infrastructure.Data.Repositories
         {
             return await _context.Logs.Where(l => l.Entidade == entidade).ToListAsync();
         }
-
+        public async Task<List<Log>> GetByIdLeilaoAndIdEntidade(int leilaoId, int entidadeId)
+        {
+            return await _context.Logs.Where(l => l.EntidadeId == entidadeId && l.LeilaoId == leilaoId).ToListAsync();
+        }
         public async Task<List<Log>> GetByAcao(string acao)
         {
             return await _context.Logs.Where(l => l.Acao == acao).ToListAsync();

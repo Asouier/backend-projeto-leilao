@@ -1,10 +1,11 @@
 ﻿using Application.DTOs.Logs;
+using Application.IServices;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Services
 {
-    public class LogService
+    public class LogService: ILogService
     {
         private readonly ILogRepository _logRepository;
 
@@ -19,7 +20,6 @@ namespace Application.Services
             {
                 var log = new Log
                 {
-                    UsuarioId = novoLog.UsuarioId,
                     ClienteId = novoLog.ClienteId,
                     LeilaoId = novoLog.LeilaoId,
                     Entidade = novoLog.Entidade,
@@ -50,6 +50,10 @@ namespace Application.Services
         public async Task<List<Log>> GetLogsByEntidade(string entidade)
         {
             return await _logRepository.GetByEntidade(entidade);
+        }
+        public async Task<List<Log>> GetLogLances(int leilaoId, int entidadeId)
+        {
+            return await _logRepository.GetByIdLeilaoAndIdEntidade(leilaoId, entidadeId);
         }
 
         public async Task<List<Log>> GetLogsByAcao(string acao)

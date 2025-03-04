@@ -3,7 +3,7 @@
     public class Log
     {
         public int Id { get; set; }
-        public int UsuarioId { get; set; }
+        public int UsuarioId { get; set; } = 2;
         public int? ClienteId { get; set; }
         public int? LeilaoId { get; set; }
         public string Entidade { get; set; } = string.Empty;

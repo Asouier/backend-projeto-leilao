@@ -2,7 +2,7 @@
 {
     public class AddLogDto
     {
-        public required int UsuarioId { get; set; }
+        public int? UsuarioId { get; set; }
         public int? ClienteId { get; set; }
         public int? LeilaoId { get; set; }
         public required string Entidade { get; set; }

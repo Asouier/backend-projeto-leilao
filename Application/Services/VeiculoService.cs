@@ -3,6 +3,8 @@ using Application.IServices;
 using Domain.Entities;
 using Domain.Extensions;
 using Domain.Repositories;
+using Infrastructure.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -10,11 +12,15 @@ namespace Application.Services
     {
         private readonly IVeiculoRepository _veiculoRepository;
         private readonly ILeilaoRepository _leilaoRepository;
+        private readonly ILogRepository _logRepository;
+        private readonly AppDbContext _context;
 
-        public VeiculoService(IVeiculoRepository veiculoRepository, ILeilaoRepository leilaoRepository)
+        public VeiculoService(IVeiculoRepository veiculoRepository, ILeilaoRepository leilaoRepository, ILogRepository logRepository, AppDbContext context)
         {
             _veiculoRepository = veiculoRepository;
             _leilaoRepository = leilaoRepository;
+            _logRepository = logRepository;
+            _context = context;
         }
 
         // Adiciona um novo veículo
@@ -73,36 +79,56 @@ namespace Application.Services
         }
         public async Task<string> NovoLance(NovoLanceVeiculoDto informacoesLance)
         {
-            try
+            var executionStrategy = _context.Database.CreateExecutionStrategy();
+
+            return await executionStrategy.ExecuteAsync(async () =>
             {
-                var veiculo = await _veiculoRepository.GetById(informacoesLance.IdVeiculo);
-                if (veiculo == null)
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    return "Veículo não encontrado.";
-                }
+                    var veiculo = await _veiculoRepository.GetById(informacoesLance.IdVeiculo);
+                    if (veiculo == null)
+                    {
+                        return "Veículo não encontrado.";
+                    }
 
-                var anfitriao = await _leilaoRepository.GetById(veiculo.LeilaoId);
-                if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
-                if (anfitriao.StatusId != 1) // Trocar para um enum
+                    var anfitriao = await _leilaoRepository.GetById(veiculo.LeilaoId);
+                    if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
+                    if (anfitriao.StatusId != 1) // Trocar para um enum
+                    {
+                        return "O Leilão anfitrião não esta mais disponivel, logo não haverão mudanças nas informações do Veiculo";
+                    }
+
+                    if (informacoesLance.ValorMinimo < veiculo.ValorMinimo)
+                    {
+                        return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
+                        //Adicionar log
+                    }
+
+                    veiculo.AtualizarPropriedadesNaoNulas(informacoesLance);
+                    var log = new Log
+                    {
+                        ClienteId = informacoesLance.ClienteArrematanteId,
+                        LeilaoId = veiculo.LeilaoId,
+                        Entidade = "Veículo",
+                        EntidadeId = informacoesLance.IdVeiculo,
+                        Acao = $"Novo Lance(R${informacoesLance.ValorMinimo})",
+                        DataHora = DateTime.UtcNow
+                    };
+
+                    await _veiculoRepository.Update(veiculo);
+                    await _logRepository.Add(log);
+
+                    await transaction.CommitAsync();
+                    return "Novo lance atribuido.";
+                }
+                catch (Exception ex)
                 {
-                    return "O Leilão anfitrião não esta mais disponivel, logo não haverão mudanças nas informações do Veiculo";
+                    await transaction.RollbackAsync();
+                    var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Nenhuma exceção interna.";
+                    return $"Erro ao adicionar leilão: {ex.Message}; Exceção interna: {innerExceptionMessage}";
                 }
-
-                if (informacoesLance.ValorDoLance < veiculo.ValorMinimo)
-                {
-                    return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
-                    //Adicionar log
-                }
-
-                veiculo.AtualizarPropriedadesNaoNulas(informacoesLance);
-
-                await _veiculoRepository.Update(veiculo);
-                return "Veículo atualizado com sucesso.";
-            }
-            catch (Exception ex)
-            {
-                return $"Erro ao atualizar veículo: {ex.Message}";
-            }
+            });
         }
 
         public async Task<string> RemoveVeiculo(int id)

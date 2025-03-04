@@ -42,6 +42,7 @@ namespace Application
             services.AddScoped<IVeiculoRepository, VeiculoRepository>();
             services.AddScoped<IImovelRepository, ImovelRepository>();
             services.AddScoped<ILeilaoRepository, LeilaoRepository>();
+            services.AddScoped<ILogRepository, LogRepository>();
 
             services.AddScoped<IEnderecoService, EnderecoService>();
             services.AddScoped<IClienteService, ClienteService>();
@@ -58,6 +59,7 @@ namespace Application
             services.AddScoped<IImovelService, ImovelService>();
             services.AddScoped<IVeiculoService, VeiculoService>();
             services.AddScoped<ILeilaoService, LeilaoService>();
+            services.AddScoped<ILogService, LogService>();
 
             return services;
         }

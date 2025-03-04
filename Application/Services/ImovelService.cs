@@ -12,13 +12,15 @@ namespace Application.Services
     public class ImovelService: IImovelService
     {
         private readonly IImovelRepository _imovelRepository;
-        private readonly ILeilaoRepository _leilaoRepository;
+        private readonly ILeilaoRepository _leilaoRepository; 
+        private readonly ILogRepository _logRepository;
         private readonly AppDbContext _context;
 
-        public ImovelService(IImovelRepository imovelRepository, ILeilaoRepository leilaoRepository, AppDbContext context)
+        public ImovelService(IImovelRepository imovelRepository, ILeilaoRepository leilaoRepository, AppDbContext context, ILogRepository logRepository)
         {
             _imovelRepository = imovelRepository;
             _leilaoRepository = leilaoRepository;
+            _logRepository = logRepository;
             _context = context;
         }
 
@@ -132,36 +134,56 @@ namespace Application.Services
 
         public async Task<string> NovoLance(NovoLanceImovelDto informacoesLance)
         {
-            try
+            var executionStrategy = _context.Database.CreateExecutionStrategy();
+
+            return await executionStrategy.ExecuteAsync(async () =>
             {
-                var imovel = await _imovelRepository.GetById(informacoesLance.IdImovel);
-                if (imovel == null)
-                {
-                    return "Veículo não encontrado.";
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                    {
+                        var imovel = await _imovelRepository.GetById(informacoesLance.IdImovel);
+                    if (imovel == null)
+                    {
+                        return "Imóvel não encontrado.";
+                    }
+
+                    var anfitriao = await _leilaoRepository.GetById(imovel.LeilaoId);
+                    if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
+                    if (anfitriao.StatusId != 1) // Trocar para um enum
+                    {
+                        return "O Leilão anfitrião não esta mais disponivel, logo não haverão mudanças nas informações do Veiculo";
+                    }
+
+                    if (informacoesLance.ValorMinimo < imovel.ValorMinimo)
+                    {
+                        return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
+                        //Adicionar log
+                    }
+
+                    imovel.AtualizarPropriedadesNaoNulas(informacoesLance);
+                    var log = new Log
+                    {
+                        ClienteId = informacoesLance.ClienteArrematanteId,
+                        LeilaoId = imovel.LeilaoId,
+                        Entidade = "Imóvel",
+                        EntidadeId = informacoesLance.IdImovel,
+                        Acao = $"Novo Lance(R${informacoesLance.ValorMinimo})",
+                        DataHora = DateTime.UtcNow
+                    };
+
+                    await _imovelRepository.Update(imovel);
+                    await _logRepository.Add(log);
+
+                    await transaction.CommitAsync();
+                    return "Novo lance atribuido.";
                 }
-
-                var anfitriao = await _leilaoRepository.GetById(imovel.LeilaoId);
-                if (anfitriao == null) return "O leilão indicado não existe ou não está disponível";
-                if (anfitriao.StatusId != 1) // Trocar para um enum
+                catch (Exception ex)
                 {
-                    return "O Leilão anfitrião não esta mais disponivel, logo não haverão mudanças nas informações do Veiculo";
+                    await transaction.RollbackAsync();
+                    var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Nenhuma exceção interna.";
+                    return $"Erro ao adicionar leilão: {ex.Message}; Exceção interna: {innerExceptionMessage}";
                 }
-
-                if (informacoesLance.ValorDoLance < imovel.ValorMinimo)
-                {
-                    return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
-                    //Adicionar log
-                }
-
-                imovel.AtualizarPropriedadesNaoNulas(informacoesLance);
-
-                await _imovelRepository.Update(imovel);
-                return "Veículo atualizado com sucesso.";
-            }
-            catch (Exception ex)
-            {
-                return $"Erro ao atualizar veículo: {ex.Message}";
-            }
+            });
         }
 
         public async Task<string> RemoveImovel(int id)
