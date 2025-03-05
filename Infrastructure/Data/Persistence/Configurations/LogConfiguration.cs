@@ -13,7 +13,6 @@ namespace Infrastructure.Data.Persistence.Configurations
             builder.HasKey(l => l.Id);
 
             builder.Property(l => l.UsuarioId)
-                   .IsRequired()
                    .HasColumnName("usuario_id");
 
             builder.Property(l => l.ClienteId)

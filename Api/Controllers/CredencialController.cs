@@ -31,7 +31,7 @@ public class CredencialController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("acesso")]
-    public async Task<IActionResult> GetAccess([FromBody] AddCredencialDto credencial)
+    public async Task<IActionResult> GetAccess([FromBody] LoginDto credencial)
     {
         if (credencial == null)
         {

@@ -44,7 +44,15 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Leilao>> GetAll()
         {
-            return await _context.Leiloes.ToListAsync();
+            return await _context.Leiloes
+                .Include(l => l.TipoLeilao)          // Inclui o TipoLeilao
+                .Include(l => l.Imoveis)              // Inclui a coleção de Imoveis
+                .Include(l => l.Veiculos)             // Inclui a coleção de Veiculos
+                .Include(l => l.Status)               // Inclui o Status
+                .Include(l => l.Endereco)             // Inclui o Endereco
+                .Include(l => l.UsuarioCadastro)      // Inclui o UsuarioCadastro
+                .Include(l => l.UsuarioAprovacao)     // Inclui o UsuarioAprovacao
+                .ToListAsync();
         }
 
         public async Task<List<Leilao>> GetByStatus(int statusId)

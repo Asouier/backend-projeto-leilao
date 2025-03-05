@@ -23,7 +23,7 @@ namespace Application.Services
         {
             try
             {
-                var credencial = Credencial.Create(novaCredencial.NomeUsuario, novaCredencial.Senha);
+                var credencial = Credencial.Create(novaCredencial.TipoUsuario, novaCredencial.NomeUsuario, novaCredencial.Senha);
 
                 await _credencialRepository.Add(credencial);
                 return "Credencial adicionada com sucesso.";
@@ -33,7 +33,7 @@ namespace Application.Services
                 return $"Erro ao adicionar credencial: {ex.Message}";
             }
         }
-        public async Task<ResponseLoginDto?> GetAccess(AddCredencialDto credencial)
+        public async Task<ResponseLoginDto?> GetAccess(LoginDto credencial)
         {
             try
             {
@@ -41,22 +41,15 @@ namespace Application.Services
                 if (acesso == null || credencial.Senha != acesso.Senha)
                     return null;
 
-                var contaUsuario = await _usuarioRepository.GetByCredencialId(acesso.Id);
-                var contaCliente = new Cliente();
-                if (contaUsuario == null)
-                {
-                    contaCliente = await _clienteRepository.GetByCredencialId(acesso.Id);
-                }
-
                 var response = new ResponseLoginDto
                 {
-                    Id = contaUsuario?.Id ?? contaCliente?.Id,
-                    NomeUsuario = acesso.NomeUsuario,
-                    Email = contaUsuario?.Contato?.Email ?? contaCliente?.Contato?.Email
+                    NomeUsuario = acesso.NomeUsuario
                 };
 
-                if (contaUsuario != null)
+                if (acesso.TipoUsuario == 1)
                 {
+                    var contaUsuario = await _usuarioRepository.GetByCredencialId(acesso.Id);
+                    response.Id = contaUsuario.Id;
                     response.NomeCompleto = contaUsuario.NomeCompleto;
                     response.CargoFuncao = contaUsuario.CargoFuncao;
                     response.PermissaoId = contaUsuario.PermissaoId;
@@ -64,8 +57,10 @@ namespace Application.Services
                     response.CategoriaResponsavel = contaUsuario.CategoriaResponsavel;
                 }
 
-                if (contaCliente != null)
+                if (acesso.TipoUsuario == 2)
                 {
+                    var contaCliente = await _clienteRepository.GetByCredencialId(acesso.Id);
+                    response.Id = contaCliente.Id;
                     response.NomeCompleto = contaCliente.NomeCompleto;
                     response.NomeFantasia = contaCliente.NomeFantasia;
                     response.Cidade = contaCliente.Endereco?.Cidade;

@@ -13,6 +13,8 @@
         public int? UsuarioAprovacaoId { get; set; }
         public decimal TaxaAdministrativa { get; set; }
         public decimal ValorArrecadado { get; set; }
+        public string? EntidadeFinanceira { get; set; } 
+        public decimal IncrementoLance { get; set; }
         public DateTime DataHoraRegistro { get; set; }
         public DateTime DataHoraAtualizacao { get; set; }
 
@@ -26,7 +28,7 @@
 
         public Leilao() { }
 
-        public static Leilao Create(int tipoLeilaoId, int statusId, int enderecoId, DateTime dataHoraInicio, DateTime dataHoraFim, string urlLeilao, ICollection<Imovel>? imoveis, ICollection<Veiculo>? veiculos, int usuarioCadastroId, decimal taxaAdministrativa, int? usuarioAprovacaoId = null)
+        public static Leilao Create(int tipoLeilaoId, int statusId, int enderecoId, DateTime dataHoraInicio, DateTime dataHoraFim, string urlLeilao, ICollection<Imovel>? imoveis, ICollection<Veiculo>? veiculos, int usuarioCadastroId, decimal taxaAdministrativa, int? usuarioAprovacaoId = null, string? entidadeFinanceira = null)
         {
             return new Leilao
             {
@@ -42,6 +44,8 @@
                 UsuarioAprovacaoId = usuarioAprovacaoId,
                 TaxaAdministrativa = taxaAdministrativa,
                 ValorArrecadado = 0,
+                EntidadeFinanceira = entidadeFinanceira,
+                IncrementoLance = 0,
                 DataHoraRegistro = DateTime.UtcNow,
                 DataHoraAtualizacao = DateTime.UtcNow
             };

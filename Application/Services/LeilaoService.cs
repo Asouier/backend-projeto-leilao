@@ -80,7 +80,9 @@ namespace Application.Services
                         UrlLeilao = novoLeilao.UrlLeilao,
                         UsuarioCadastroId = novoLeilao.UsuarioCadastroId,
                         UsuarioAprovacaoId = novoLeilao.UsuarioAprovacaoId,
-                        TaxaAdministrativa = novoLeilao.TaxaAdministrativa
+                        TaxaAdministrativa = novoLeilao.TaxaAdministrativa,
+                        EntidadeFinanceira = novoLeilao.EntidadeFinanceira,
+                        IncrementoLance = novoLeilao.IncrementoLance
                     };
 
                     int novoId = await _leilaoRepository.Add(leilao);

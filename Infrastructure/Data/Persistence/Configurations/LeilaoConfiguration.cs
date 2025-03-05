@@ -44,13 +44,19 @@ namespace Infrastructure.Data.Persistence.Configurations
             builder.Property(l => l.UsuarioAprovacaoId)
                    .HasColumnName("usuario_aprovacao_id");
 
+            builder.Property(l => l.EntidadeFinanceira)
+                  .HasColumnName("entidade_financeira");
+
+            builder.Property(l => l.IncrementoLance)
+                   .HasColumnType("decimal(10,2)")
+                   .HasColumnName("incremento_lances")
+                   .HasDefaultValue(0m);
+
             builder.Property(l => l.TaxaAdministrativa)
-                   .IsRequired()
                    .HasColumnType("decimal(10,2)")
                    .HasColumnName("taxa_administrativa");
 
             builder.Property(l => l.ValorArrecadado)
-                   .IsRequired()
                    .HasColumnType("decimal(10,2)")
                    .HasColumnName("valor_arrecadado")
                    .HasDefaultValue(0m);

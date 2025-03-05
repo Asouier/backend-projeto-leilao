@@ -11,6 +11,9 @@
         public required int UsuarioCadastroId { get; set; }
         public int? UsuarioAprovacaoId { get; set; }
         public decimal TaxaAdministrativa { get; set; } = 5; //Add enum para facilitar manutenção e troca do valor padrão
+        public decimal ValorArrecadado { get; set; }
+        public required string EntidadeFinanceira { get; set; }
+        public decimal IncrementoLance { get; set; }
         public string Cep { get; set; } = string.Empty;
         public string Endereco { get; set; } = string.Empty;
         public string Cidade { get; set; } = string.Empty;

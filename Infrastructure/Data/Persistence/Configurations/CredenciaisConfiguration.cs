@@ -13,6 +13,10 @@ namespace Infrastructure.Data.Persistence.Configurations
 
             builder.HasKey(c => c.Id);
 
+            builder.Property(c => c.TipoUsuario)
+                   .IsRequired()
+                   .HasColumnName("tipo_usuario");
+
             builder.Property(c => c.NomeUsuario)
                    .IsRequired()
                    .HasMaxLength(100)

@@ -30,6 +30,7 @@ namespace Application.Services
                 {
                     var novaCredencial = new Credencial()
                     {
+                        TipoUsuario = 2,
                         NomeUsuario = novoCliente.NomeUsuario,
                         Senha = novoCliente.Senha
                     };

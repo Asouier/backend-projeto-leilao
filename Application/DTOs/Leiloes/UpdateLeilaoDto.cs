@@ -11,6 +11,8 @@
         public string? UrlLeilao { get; set; }
         public int? UsuarioAprovacaoId { get; set; }
         public decimal? TaxaAdministrativa { get; set; }
+        public decimal ValorArrecadado { get; set; }
+        public string EntidadeFinanceira { get; set; } = string.Empty;
         public string Cep { get; set; } = string.Empty;
         public string Endereco { get; set; } = string.Empty;
         public string Cidade { get; set; } = string.Empty;

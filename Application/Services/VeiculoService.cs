@@ -102,7 +102,12 @@ namespace Application.Services
                     if (informacoesLance.ValorMinimo < veiculo.ValorMinimo)
                     {
                         return "Esse tipo de alteração viola a política de uso do Leilão. Um representante do Leilão entrará em contato com você em breve.";
-                        //Adicionar log
+                    }
+
+                    if (informacoesLance.ValorMinimo < (informacoesLance.ValorMinimo + anfitriao.IncrementoLance) ||
+                       (informacoesLance.ValorMinimo - veiculo.ValorMinimo) % anfitriao.IncrementoLance != 0)
+                    {
+                        return "O valor do lance não respeita o incremento mínimo permitido.";
                     }
 
                     veiculo.AtualizarPropriedadesNaoNulas(informacoesLance);

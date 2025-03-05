@@ -2,7 +2,7 @@
 {
     public class ResponseLoginDto
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string NomeUsuario { get; set; } = string.Empty;
         public string? NomeCompleto { get; set; }
         public string? NomeFantasia { get; set; }

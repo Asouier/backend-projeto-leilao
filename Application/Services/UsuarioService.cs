@@ -28,8 +28,33 @@ namespace Application.Services
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
                 {
+                    var emailExistente = await _context.Contatos
+                        .AnyAsync(c => c.Email == novoUsuario.Email);
+
+                    if (emailExistente)
+                    {
+                        return $"Erro: O e-mail '{novoUsuario.Email}' já está em uso.";
+                    }
+
+                    var usuarioExistente = await _context.Credenciais
+                        .AnyAsync(c => c.NomeUsuario == novoUsuario.Usuario);
+
+                    if (usuarioExistente)
+                    {
+                        return $"Erro: O nome de usuário '{novoUsuario.Usuario}' já está em uso.";
+                    }
+
+                    var cpfExistente = await _context.Usuarios
+                        .AnyAsync(u => u.Cpf == novoUsuario.Cpf);
+
+                    if (cpfExistente)
+                    {
+                        return $"Erro: O CPF '{novoUsuario.Cpf}' já está cadastrado.";
+                    }
+
                     var novaCredencial = new Credencial()
                     {
+                        TipoUsuario = 1,
                         NomeUsuario = novoUsuario.Usuario,
                         Senha = novoUsuario.Senha
                     };
